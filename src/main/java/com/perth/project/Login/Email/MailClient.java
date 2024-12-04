@@ -13,7 +13,7 @@ public class MailClient {
     public Session emailSession() {
 
         final String username = "montoyaian670@gmail.com";
-        final String password = ${{ secrets.GMAILKEY }};
+        final String password = System.getenv("GMAILKEY");
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
