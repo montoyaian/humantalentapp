@@ -82,7 +82,7 @@ public class Authservice {
             return validationResponse;
         }
         userRepository.save(user);
-        String templatePath = "src/main/resources/templates/Email.html";
+        String templatePath = "./src/main/resources/templates/Email.html";
 
         UserFuntions.Notification(request.getEmail(), templatePath, user.getUsername(), emailSession);
         return AuthResponse.builder()
