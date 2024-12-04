@@ -16,7 +16,7 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = ${{secrets.ENCODEKEY}};
+    private static final String SECRET_KEY = System.getenv("ENCODEKEY");
 
     public String getToken(UserDetails user) {
         return getToken(new HashMap<>(), user);
