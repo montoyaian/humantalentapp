@@ -1,0 +1,20 @@
+name: Access Secrets Workflow
+
+on:
+  push:
+    branches:
+      - master  
+
+jobs:
+  use-secrets:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Declare Environment Variables
+      env:
+        ENCODEKEY: ${{ secrets.ENCODEKEY }}
+        GMAILKEY: ${{ secrets.GMAILKEY }}
+      run: echo "Environment variables set."
