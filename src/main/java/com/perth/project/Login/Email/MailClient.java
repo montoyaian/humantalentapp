@@ -12,7 +12,7 @@ public class MailClient {
     @Bean(name = "emailSession")
     public Session emailSession() {
 
-        final String username = "montoyaian670@gmail.com";
+        final String username = "perthpersoneria@gmail.com";
         final String password = System.getenv("GMAILKEY");
 
         Properties props = new Properties();
