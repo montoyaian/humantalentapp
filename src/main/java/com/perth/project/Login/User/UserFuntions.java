@@ -1,5 +1,7 @@
 package com.perth.project.Login.User;
 
+import java.util.Random;
+
 import javax.mail.*;
 import javax.mail.internet.*;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,7 +31,8 @@ public class UserFuntions {
                     .build();
 
         }
-        UserDetails userfound = userRepository.findByIdentification(user.getIdentification()).orElse(null);
+        UserDetails userfound = userRepository.findByIdentification(user.getIdentification())
+                .orElseGet(() -> userRepository.findByUsername(user.getUsername()).orElse(null));
         if (userfound != null) {
             return AuthResponse.builder()
                     .response("El usuario ya existe")
@@ -40,9 +43,26 @@ public class UserFuntions {
         return null;
     }
 
-    public static void Notification(String userEmail, String filePath, String userName, Session emailSession) {
+    public static String generatePassword() {
+        int length = 8;
 
-        String password = EmailFuntions.generatePassword();
+        String numbers = "0123456789";
+
+        Random random = new Random();
+
+        StringBuilder password = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(numbers.length());
+            password.append(numbers.charAt(index));
+        }
+
+        return password.toString();
+    }
+
+    public static void Notification(String userEmail, String filePath, String userName, Session emailSession,
+            String password) {
+
         String content = EmailFuntions.readTemplate(filePath);
         String templateReplace = EmailFuntions.replaceValues(userName, password, content);
         try {

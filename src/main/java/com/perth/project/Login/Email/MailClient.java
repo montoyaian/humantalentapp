@@ -12,8 +12,8 @@ public class MailClient {
     @Bean(name = "emailSession")
     public Session emailSession() {
 
-        final String username = "montoyaian670@gmail.com";
-        final String password = "dsvu qwyp mglt xjaf";
+        final String username = "perthpersoneria@gmail.com";
+        final String password = "dllc euyk llce nyew";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");

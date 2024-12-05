@@ -1,18 +1,21 @@
 package com.perth.project.Login.Auth;
 
+import java.io.IOException;
+import java.nio.file.Files;
+
 import javax.mail.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import java.nio.file.Path;
 import com.perth.project.Login.User.*;
 import com.perth.project.Login.jwt.JwtService;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -66,9 +69,10 @@ public class Authservice {
     }
 
     public AuthResponse register(RegisterRequest request) {
+        String password = UserFuntions.generatePassword();
         User user = User.builder()
                 .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .password(passwordEncoder.encode(password))
                 .identification(request.getIdentification())
                 .profile(request.getProfile())
                 .area(request.getArea())
@@ -82,9 +86,16 @@ public class Authservice {
             return validationResponse;
         }
         userRepository.save(user);
-        String templatePath = "src/main/resources/templates/Email.html";
-
-        UserFuntions.Notification(request.getEmail(), templatePath, user.getUsername(), emailSession);
+        String templatePath = "";
+        try {
+            ClassPathResource resource = new ClassPathResource("templates/Email.html");
+            Path tempFile = Files.createTempFile("email-template", ".html");
+            Files.copy(resource.getInputStream(), tempFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            templatePath = tempFile.toAbsolutePath().toString();
+        } catch (IOException e) {
+            System.err.println("Error al obtener el recurso del classpath: " + e.getMessage());
+        }
+        UserFuntions.Notification(request.getEmail(), templatePath, user.getUsername(), emailSession, password);
         return AuthResponse.builder()
                 .response(jwtService.getToken(user))
                 .build();
