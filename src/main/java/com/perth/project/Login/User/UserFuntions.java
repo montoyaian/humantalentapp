@@ -78,4 +78,13 @@ public class UserFuntions {
             e.printStackTrace();
         }
     }
+
+    public static String CreateUserName(String firstName, String lastName) {
+
+        char firstLetter = firstName.charAt(0);
+        String firstWordLastName = lastName.split(" ")[0];
+
+        return firstLetter + firstWordLastName.toLowerCase();
+
+    }
 }
