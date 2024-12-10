@@ -17,4 +17,6 @@ jobs:
       env:
         ENCODEKEY: ${{ secrets.ENCODEKEY }}
         GMAILKEY: ${{ secrets.GMAILKEY }}
+        ROOT_PASSWORD:  ${{ secrets.ROOT_PASSWORD}} 
+        DATABASE_URL: ${{secrets.DATABASE_URL}}
       run: echo "Environment variables set."
