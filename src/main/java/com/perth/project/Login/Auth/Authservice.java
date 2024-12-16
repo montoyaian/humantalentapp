@@ -1,5 +1,6 @@
 package com.perth.project.Login.Auth;
 
+import javax.mail.MessagingException;
 import javax.mail.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.perth.project.Login.Email.EmailFuntions;
 import com.perth.project.Login.User.*;
 import com.perth.project.Login.jwt.JwtService;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -41,7 +43,7 @@ public class Authservice {
                         .build();
             } else {
                 return AuthResponse.builder()
-                        .response("Cuenta bloqueda")
+                        .response("Demasiados intentos, cuenta bloqueada.")
                         .build();
 
             }
@@ -51,7 +53,7 @@ public class Authservice {
 
                 userRepository.incrementFailedTrys(request.getUsername());
                 Integer failedtrys = userRepository.getFailedTrys(request.username);
-                if (failedtrys == 3) {
+                if (failedtrys > 3) {
                     userRepository.blockAccount(request.getUsername());
                     return AuthResponse.builder()
                             .response("Demasiados intentos, cuenta bloqueada.")
@@ -67,25 +69,33 @@ public class Authservice {
     public AuthResponse register(RegisterRequest request) {
         String password = UserFuntions.generatePassword();
         User user = User.builder()
-                .username(UserFuntions.CreateUserName(request.getFirstName(), request.getLastName()))
+                .username(userFuntions.CreateUserName(request.getFirstName(), request.getLastName()))
                 .password(passwordEncoder.encode(password))
                 .identification(request.getIdentification())
                 .profile(request.getProfile())
                 .area(request.getArea())
+                .email(request.getEmail())
                 .failedAttemps(0)
                 .blockedAccount(false)
                 .role(Role.USER)
                 .build();
-
         AuthResponse validationResponse = userFuntions.Validation(user);
         if (validationResponse != null) {
             return validationResponse;
         }
-        userRepository.save(user);
+
         String templatePath = EmailFuntions.pathTemplate();
-        UserFuntions.Notification(request.getEmail(), templatePath, user.getUsername(), emailSession, password);
-        return AuthResponse.builder()
-                .response(jwtService.getToken(user))
-                .build();
+        try {
+            UserFuntions.Notification(request.getEmail(), templatePath, user.getUsername(), emailSession, password);
+
+            userRepository.save(user);
+            return AuthResponse.builder()
+                    .response(jwtService.getToken(user))
+                    .build();
+        } catch (MessagingException e) {
+            return AuthResponse.builder()
+                    .response("Error en la notificación: " + e.getMessage())
+                    .build();
+        }
     }
 }

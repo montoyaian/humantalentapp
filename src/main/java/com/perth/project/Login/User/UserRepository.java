@@ -15,6 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByIdentification(String identification);
 
+    Optional<User> findByEmail(String email);
+
     @Modifying
     @Transactional
     @Query("update User userFail set userFail.failedAttemps = userFail.failedAttemps + 1 where userFail.username = :username")

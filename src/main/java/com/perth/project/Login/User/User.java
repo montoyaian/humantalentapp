@@ -41,6 +41,7 @@ public class User implements UserDetails {
     String identification;
     String profile;
     String area;
+    String email;
     Integer failedAttemps;
     Boolean blockedAccount;
     @Enumerated(EnumType.STRING)

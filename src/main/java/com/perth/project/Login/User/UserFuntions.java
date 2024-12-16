@@ -17,30 +17,24 @@ public class UserFuntions {
     private final UserRepository userRepository;
 
     public AuthResponse Validation(User user) {
-
-        String usernamePattern = "^[a-zA-Z0-9]+$";
-
-        if (!user.getUsername().matches(usernamePattern)) {
-            return AuthResponse.builder()
-                    .response("No se permiten caracteres especiales en el nombre")
-                    .build();
-        }
+        UserDetails userfound = userRepository.findByIdentification(user.getIdentification()).orElse(null);
+        UserDetails emailFound = userRepository.findByEmail(user.getEmail()).orElse(null);
         if (user.getIdentification().length() != 10) {
             return AuthResponse.builder()
                     .response("Identificacion no valida")
                     .build();
 
-        }
-        UserDetails userfound = userRepository.findByIdentification(user.getIdentification())
-                .orElseGet(() -> userRepository.findByUsername(user.getUsername()).orElse(null));
-        if (userfound != null) {
+        } else if (userfound != null) {
             return AuthResponse.builder()
-                    .response("El usuario ya existe")
+                    .response("La identificacion del usuario ya esta registrada")
                     .build();
+        } else if (emailFound != null) {
+            return AuthResponse.builder()
+                    .response("El Email del usuario ya esta registrado")
+                    .build();
+        } else {
+            return null;
         }
-        userRepository.save(user);
-
-        return null;
     }
 
     public static String generatePassword() {
@@ -60,10 +54,11 @@ public class UserFuntions {
         return password.toString();
     }
 
-    public static void Notification(String userEmail, String filePath, String userName, Session emailSession,
-            String password) {
+    public static String Notification(String userEmail, String filePath, String userName, Session emailSession,
+            String password) throws MessagingException {
 
         String content = EmailFuntions.readTemplate(filePath);
+        System.out.println(password);
         String templateReplace = EmailFuntions.replaceValues(userName, password, content);
         try {
             Message message = new MimeMessage(emailSession);
@@ -73,18 +68,27 @@ public class UserFuntions {
             message.setContent(templateReplace, "text/html; charset=utf-8");
 
             Transport.send(message);
-
+            return ("Correo enviado");
         } catch (MessagingException e) {
-            e.printStackTrace();
+            throw new MessagingException(e.getMessage(), e);
         }
     }
 
-    public static String CreateUserName(String firstName, String lastName) {
+    public String CreateUserName(String firstName, String lastName) {
+        Integer i = 0;
 
-        char firstLetter = firstName.charAt(0);
-        String firstWordLastName = lastName.split(" ")[0];
+        while (true) {
+            String firstLetter = firstName.substring(0, i + 1); // Asegúrate de que i + 1 no exceda la longitud
+            String firstWordLastName = lastName.split(" ")[0];
+            String username = firstLetter + firstWordLastName.toLowerCase();
 
-        return firstLetter + firstWordLastName.toLowerCase();
+            UserDetails userfound = userRepository.findByUsername(username).orElse(null);
 
+            if (userfound == null) {
+                return username;
+            }
+
+            i++;
+        }
     }
 }
