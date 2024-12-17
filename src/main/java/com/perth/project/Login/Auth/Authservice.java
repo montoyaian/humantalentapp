@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.perth.project.Login.Email.EmailFuntions;
 import com.perth.project.Login.User.*;
+import com.perth.project.Login.exception.BusinessErrorCodes;
+import com.perth.project.Login.exception.BusinessException;
 import com.perth.project.Login.jwt.JwtService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,9 +44,9 @@ public class Authservice {
                         .response(token)
                         .build();
             } else {
-                return AuthResponse.builder()
-                        .response("Demasiados intentos, cuenta bloqueada.")
-                        .build();
+                throw new BusinessException(
+                        BusinessErrorCodes.ACCOUNT_LOCKED,
+                        "Demasiados intentos, cuenta bloqueada");
 
             }
         } catch (Exception e) {
@@ -55,14 +57,14 @@ public class Authservice {
                 Integer failedtrys = userRepository.getFailedTrys(request.username);
                 if (failedtrys > 3) {
                     userRepository.blockAccount(request.getUsername());
-                    return AuthResponse.builder()
-                            .response("Demasiados intentos, cuenta bloqueada.")
-                            .build();
+                    throw new BusinessException(
+                            BusinessErrorCodes.ACCOUNT_LOCKED,
+                            "Demasiados intentos, cuenta bloqueada");
                 }
             }
-            return AuthResponse.builder()
-                    .response("Credenciales no validas")
-                    .build();
+            throw new BusinessException(
+                    BusinessErrorCodes.BAD_CREDENTIALS,
+                    "Credenciales invalidas");
         }
     }
 
@@ -81,7 +83,9 @@ public class Authservice {
                 .build();
         AuthResponse validationResponse = userFuntions.Validation(user);
         if (validationResponse != null) {
-            return validationResponse;
+            throw new BusinessException(
+                    BusinessErrorCodes.BAD_REGISTER,
+                    validationResponse.getResponse());
         }
 
         String templatePath = EmailFuntions.pathTemplate();
@@ -93,9 +97,9 @@ public class Authservice {
                     .response(jwtService.getToken(user))
                     .build();
         } catch (MessagingException e) {
-            return AuthResponse.builder()
-                    .response("Error en la notificación: " + e.getMessage())
-                    .build();
+            throw new BusinessException(
+                    BusinessErrorCodes.NO_NOTIFICATION,
+                    e.getMessage());
         }
     }
 }

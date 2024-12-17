@@ -32,4 +32,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("select u.blockedAccount from User u where u.username = :username")
     boolean isAccountBlocked(@Param("username") String username);
+
+    @Modifying
+    @Transactional
+    @Query("update User u set u.blockedAccount = false where u.username = :username")
+    void UnblockAccount(@Param("username") String username);
 }

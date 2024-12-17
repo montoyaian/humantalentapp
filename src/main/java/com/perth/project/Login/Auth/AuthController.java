@@ -3,6 +3,7 @@ package com.perth.project.Login.Auth;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -18,13 +19,13 @@ public class AuthController {
     private final Authservice authService;
 
     @PostMapping(value = "Login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequest request) {
 
         return ResponseEntity.ok(authService.login(request));
     }
 
     @PostMapping(value = "Register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid RegisterRequest request) {
 
         return ResponseEntity.ok(authService.register(request));
     }
