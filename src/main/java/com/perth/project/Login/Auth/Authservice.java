@@ -30,7 +30,7 @@ public class Authservice {
     @Qualifier("emailSession")
     private final Session emailSession;
 
-    public AuthResponse login(LoginRequest request) {
+    public LoginResponse login(LoginRequest request) {
 
         try {
             authenticationManager.authenticate(
@@ -39,9 +39,14 @@ public class Authservice {
                 UserDetails user = userRepository.findByUsername(request.getUsername()).orElse(null);
 
                 String token = jwtService.getToken(user);
+                String authority = user.getAuthorities().stream()
+                        .map(grantedAuthority -> grantedAuthority.getAuthority())
+                        .findFirst()
+                        .orElse(null);
 
-                return AuthResponse.builder()
+                return LoginResponse.builder()
                         .response(token)
+                        .authority(authority)
                         .build();
             } else {
                 throw new BusinessException(
@@ -54,7 +59,7 @@ public class Authservice {
             if (user != null) {
 
                 userRepository.incrementFailedTrys(request.getUsername());
-                Integer failedtrys = userRepository.getFailedTrys(request.username);
+                Integer failedtrys = userRepository.getFailedTrys(request.getUsername());
                 if (failedtrys > 3) {
                     userRepository.blockAccount(request.getUsername());
                     throw new BusinessException(

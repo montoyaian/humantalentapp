@@ -12,6 +12,20 @@ import lombok.RequiredArgsConstructor;
 public class UnblockUser {
     private final UserRepository userRepository;
 
+    public AuthResponse unblockUser(String userId) {
+        if (userRepository.isAccountBlocked(userId)) {
+            userRepository.unblockUser(userId);
+            return AuthResponse.builder()
+                    .response("Usuario desbloqueado correctamente.")
+                    .build();
+        }else{
+            return AuthResponse.builder()
+                    .response("El usuario no esta bloqueado.")
+                    .build();
+        }
+
+    }
+
     public AuthResponse Unblock(String userId) {
         UserDetails user = userRepository.findByUsername(userId).orElse(null);
 
@@ -19,10 +33,9 @@ public class UnblockUser {
             return AuthResponse.builder()
                     .response("Usuario no encontrado.")
                     .build();
+        }else{
+            return unblockUser(userId);
         }
-        userRepository.UnblockAccount(userId);
-        return AuthResponse.builder()
-                .response("Usuario desbloqueado correctamente.")
-                .build();
+    
     }
 }

@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AuthController {
     private final Authservice authService;
 
-    @PostMapping(value = "Login")
-    public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequest request) {
+    @PostMapping(value = "login")
+    public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
 
         return ResponseEntity.ok(authService.login(request));
     }
 
-    @PostMapping(value = "Register")
+    @PostMapping(value = "register")
     public ResponseEntity<AuthResponse> register(@RequestBody @Valid RegisterRequest request) {
 
         return ResponseEntity.ok(authService.register(request));

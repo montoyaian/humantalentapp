@@ -27,13 +27,12 @@ public class Security {
         return http
                 .csrf(csrf -> csrf
                         .disable())
-
                 .authorizeHttpRequests(authrequest -> authrequest
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(sessionManager -> sessionManager
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
                 .authenticationProvider(AuthProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

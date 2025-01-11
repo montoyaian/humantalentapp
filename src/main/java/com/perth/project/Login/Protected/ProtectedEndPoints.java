@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ProtectedEndPoints {
     private final UnblockUser unblockUser;
 
-    @PostMapping(value = "Home")
+    @PostMapping(value = "home")
     public String welcome() {
 
         return "security end point";
     }
 
-    @PostMapping("User/Unblock/{userName}")
+    @PostMapping("admin/user/unblock/{userName}")
     public ResponseEntity<AuthResponse> unblockAccount(@PathVariable("userName") String userId) {
 
         return ResponseEntity.ok(unblockUser.Unblock(userId));
