@@ -1,9 +1,11 @@
-package com.perth.project.Parameterization.Area;
+package com.perth.project.Parameterization.Charge;
+
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -17,14 +19,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "area", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
-public class Area {
+@Table(name = "Charge", uniqueConstraints = { @UniqueConstraint(columnNames = { "id" }) })
+public class Charge {
     @Id
-    @GeneratedValue
-    Integer ID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
     @Basic
     @Column(nullable = false)
-    Integer code;
-    @Column(nullable = false)
-    String name;
+    String nombre;
 }
