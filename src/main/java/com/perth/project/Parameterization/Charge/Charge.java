@@ -26,5 +26,5 @@ public class Charge {
     Integer id;
     @Basic
     @Column(nullable = false)
-    String nombre;
+    String name;
 }

@@ -21,7 +21,7 @@ public class ChargeService {
 
     public AuthResponse createCharge(ChargeRequest request) {
         Charge charge = Charge.builder()
-                .nombre(request.getName())
+                .name(request.getName())
                 .build();
  
         ChargeRepository.save(charge);
@@ -33,7 +33,7 @@ public class ChargeService {
 
     public AuthResponse editCharge(Integer id, ChargeRequest request) {
         Charge Charge = ChargeFunctions.checkCharge(id);
-        Charge.setNombre(request.getName());
+        Charge.setName(request.getName());
 
         ChargeRepository.save(Charge);
         return AuthResponse.builder()
@@ -53,12 +53,12 @@ public class ChargeService {
         if ("all".equalsIgnoreCase(id)) {
             List<Charge> Charges = ChargeRepository.findAll();
             List<ChargeResponse> ChargeResponses = Charges.stream()
-                    .map(Charge -> new ChargeResponse(Charge.getId(), Charge.getNombre()))
+                    .map(Charge -> new ChargeResponse(Charge.getId(), Charge.getName()))
                     .collect(Collectors.toList());
             return ChargeResponses;
         } else {
             Charge Charge = ChargeFunctions.checkCharge(Integer.valueOf(id));
-            return new ChargeResponse(Charge.getId(), Charge.getNombre());
+            return new ChargeResponse(Charge.getId(), Charge.getName());
         }
     }
 }

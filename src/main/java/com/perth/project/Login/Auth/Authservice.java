@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Email.EmailFuntions;
 import com.perth.project.Login.User.*;
@@ -18,6 +19,9 @@ import com.perth.project.Login.jwt.JwtService;
 
 import lombok.RequiredArgsConstructor;
 
+import com.perth.project.Login.User.UserFuntions.UserFuntions;
+import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
+
 @Service
 @RequiredArgsConstructor
 public class Authservice {
@@ -26,6 +30,8 @@ public class Authservice {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserFuntions userFuntions;
+    private final UploadFileService uploadFileService;
+
     @Autowired
     @Qualifier("emailSession")
     private final Session emailSession;
@@ -43,7 +49,7 @@ public class Authservice {
                         .map(grantedAuthority -> grantedAuthority.getAuthority())
                         .findFirst()
                         .orElse(null);
-
+                userRepository.unblockUser(request.getUsername());
                 return LoginResponse.builder()
                         .response(token)
                         .authority(authority)
@@ -73,7 +79,7 @@ public class Authservice {
         }
     }
 
-    public AuthResponse register(RegisterRequest request) {
+    public AuthResponse register(RegisterRequest request, MultipartFile file) {
         String password = UserFuntions.generatePassword();
         User user = User.builder()
                 .username(userFuntions.CreateUserName(request.getFirstName(), request.getLastName()))
@@ -96,7 +102,7 @@ public class Authservice {
         String templatePath = EmailFuntions.pathTemplate();
         try {
             UserFuntions.Notification(request.getEmail(), templatePath, user.getUsername(), emailSession, password);
-
+            uploadFileService.handleFileUpload(file, user.getUsername(), "image");
             userRepository.save(user);
             return AuthResponse.builder()
                     .response(jwtService.getToken(user))

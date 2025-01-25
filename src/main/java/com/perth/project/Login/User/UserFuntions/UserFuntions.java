@@ -1,4 +1,4 @@
-package com.perth.project.Login.User;
+package com.perth.project.Login.User.UserFuntions;
 
 import java.util.Random;
 
@@ -9,6 +9,8 @@ import com.perth.project.Login.Auth.AuthResponse;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import com.perth.project.Login.Email.EmailFuntions;
+import com.perth.project.Login.User.User;
+import com.perth.project.Login.User.UserRepository;
 
 @Service
 @RequiredArgsConstructor
