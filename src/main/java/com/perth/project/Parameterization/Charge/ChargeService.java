@@ -58,6 +58,11 @@ public class ChargeService {
             return ChargeResponses;
         } else {
             Charge Charge = ChargeFunctions.checkCharge(Integer.valueOf(id));
+            if (Charge == null) {
+                return AuthResponse.builder()
+                        .response("Charge no encontrado")
+                        .build();
+            }
             return new ChargeResponse(Charge.getId(), Charge.getName());
         }
     }

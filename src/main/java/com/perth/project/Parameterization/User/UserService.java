@@ -10,6 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Login.User.User;
 import com.perth.project.Login.User.UserRepository;
+import com.perth.project.Login.User.UserFuntions.UserFuntions;
+import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadImageFile;
+import com.perth.project.Login.exception.BusinessErrorCodes;
+import com.perth.project.Login.exception.BusinessException;
 import com.perth.project.Parameterization.User.UserTools.EditUserRequest;
 import com.perth.project.Parameterization.User.UserTools.UserResponse;
 
@@ -20,50 +24,66 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final UserRepository userRepository;
-    
+    private final UserFuntions userFuntions;
     public AuthResponse editUser(EditUserRequest request, String UserName, MultipartFile file) {
-        User user = User.builder()
-                .username(request.getUsername())
-                .identification(request.getIdentification())
-                .profile(request.getProfile())
-                .area(request.getArea())
-                .email(request.getEmail())
-                .build();
+        Optional<User> optionalUser = userRepository.findByUsername(UserName);
+        if (!optionalUser.isPresent()) {
+            throw new BusinessException(
+                            BusinessErrorCodes.BAD_REGISTER,
+                            "Usuario no encontrado");
+        }
+        if (file != null) {
+            UploadImageFile.deletePhoto(UserName);
+            UploadImageFile.InnerUploadImageFile(file, UserName);
+        }
+        User user = optionalUser.get();
+        user.setUsername(request.getUsername());
+        user.setIdentification(request.getIdentification());
+        user.setProfile(request.getProfile());
+        user.setArea(request.getArea());
+        user.setEmail(request.getEmail());
 
+        userFuntions.Validation(user);
         userRepository.save(user);
+
         return AuthResponse.builder()
                 .response("usuario editado correctamente")
                 .build();
     }
 
-     public AuthResponse deleteUser(String username) {
-        Optional<User> optionalUser = userRepository.findByUsername(username);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            userRepository.delete(user);
-            return AuthResponse.builder()
-                    .response("Usuario eliminado correctamente")
-                    .build();
-        } else {
-            throw new IllegalArgumentException("Usuario no encontrado");
+     public AuthResponse deleteUser(String userName) {
+       
+        Optional<User> optionalUser = userRepository.findByUsername(userName);
+        if (!optionalUser.isPresent()) {
+              throw new BusinessException(
+                BusinessErrorCodes.BAD_REGISTER,
+                "Usuario no encontrado");
         }
+        User user = optionalUser.get();
+        userRepository.delete(user);
+        UploadImageFile.deletePhoto(userName);
+        return AuthResponse.builder()
+                .response("Usuario eliminado correctamente")
+                .build();
     }
 
     public Object readUser(String id) {
         if ("all".equalsIgnoreCase(id)) {
             List<User> users = userRepository.findAll();
             List<UserResponse> userResponses = users.stream()
-                    .map(user -> new UserResponse(user.getIdentification(), user.getUsername(),user.getProfile(),user.getArea() ,user.getEmail()))
+                    .map(user -> new UserResponse(user.getUsername(),user.getIdentification(),user.getProfile(),user.getArea() ,user.getEmail()))
                     .collect(Collectors.toList());
             return userResponses;
         } else {
-            Optional<User> optionalUser = userRepository.findById(Integer.valueOf(id));
-            if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
-                return new UserResponse(user.getIdentification(), user.getUsername(),user.getProfile(),user.getArea() ,user.getEmail());
-            } else {
-                throw new IllegalArgumentException("Usuario no encontrado");
+            Optional<User> optionalUser = userRepository.findByUsername(id);
+            if (!optionalUser.isPresent()) {
+                throw new BusinessException(
+                    BusinessErrorCodes.BAD_REGISTER,
+                    "Usuario no encontrado"); 
             }
+            User user = optionalUser.get();
+            return new UserResponse(user.getIdentification(), user.getUsername(),user.getProfile(),user.getArea() ,user.getEmail());
+            
         }
     }
 }

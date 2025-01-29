@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.springframework.web.multipart.MultipartFile;
-
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
 
@@ -21,8 +20,7 @@ public class UploadImageFile {
                         "El archivo debe ser de tipo jpg , png o jpeg");
             }
             byte[] bytes = file.getBytes();
-            String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
-            String newFileName = fileName + fileExtension;
+            String newFileName = fileName + ".jpg";
             File folder = new File("src/main/resources/images");
             if (!folder.exists()) {
                 folder.mkdirs();
@@ -36,6 +34,19 @@ public class UploadImageFile {
                 "Error al subir el archivo");
         }
         }
-    
+    public static void deletePhoto(String UserName) {
+       
+        String directoryPath = "src/main/resources/images/UserName.jpg";
+        String photoPath = directoryPath + UserName + ".jpg";
+        try {
+            Path path = Paths.get(photoPath);
+            Files.deleteIfExists(path);
+            
+        } catch (Exception e) {
+            throw new BusinessException(
+                BusinessErrorCodes.BAD_REGISTER,
+                "Error al eliminar el archivo");
+        }
+     }
         
 }

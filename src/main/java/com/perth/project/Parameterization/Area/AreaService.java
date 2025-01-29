@@ -63,8 +63,12 @@ public class AreaService {
                     .collect(Collectors.toList());
             return areaResponses;
         } else {
-                
             Area area = areaFunctions.checkArea(Integer.valueOf(code));
+            if (area == null) {
+                return AuthResponse.builder()
+                        .response("Area no encontrada")
+                        .build();
+            }
             return new AreaResponse(area.getCode(), area.getName());
         }
     }

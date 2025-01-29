@@ -37,13 +37,11 @@ public class UserController {
 
     @DeleteMapping(value = "admin/user/delete/{UserName}")
     public ResponseEntity<AuthResponse> deleteUser(@PathVariable("UserName") String UserName) {
-        userService.deleteUser(UserName);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(userService.deleteUser(UserName));
     }
 
-    @GetMapping(value = "admin/user/{UserName}")
+    @GetMapping(value = "admin/user/read/{UserName}")
     public ResponseEntity<Object> getUser(@PathVariable("UserName") String UserName) {
-         
         return ResponseEntity.ok(userService.readUser(UserName));
     }
 }
