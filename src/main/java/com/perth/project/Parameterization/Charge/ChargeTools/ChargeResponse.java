@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChargeResponse {
     private Integer id;
-    private String nombre;
+    private String name;
 }
