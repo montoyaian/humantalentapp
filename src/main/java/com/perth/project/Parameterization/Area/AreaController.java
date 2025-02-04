@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
 public class AreaController {
     private final AreaService areaService;
 
