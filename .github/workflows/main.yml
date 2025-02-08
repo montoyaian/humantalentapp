@@ -19,4 +19,6 @@ jobs:
         GMAILKEY: ${{ secrets.GMAILKEY }}
         ROOT_PASSWORD:  ${{ secrets.ROOT_PASSWORD}} 
         DATABASE_URL: ${{secrets.DATABASE_URL}}
+        CLOUDPASSWORD: ${{secrets.CLOUDPASSWORD}}
+        CLOUDUSER: ${{secrets.CLOUDUSER}}
       run: echo "Environment variables set."
