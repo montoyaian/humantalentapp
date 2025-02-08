@@ -71,7 +71,7 @@ public class UserService {
         if ("all".equalsIgnoreCase(id)) {
             List<User> users = userRepository.findAll();
             List<UserResponse> userResponses = users.stream()
-                    .map(user -> new UserResponse(user.getUsername(),user.getIdentification(),user.getProfile(),user.getArea() ,user.getEmail()))
+                    .map(user -> new UserResponse(user.getIdentification(),user.getUsername(),user.getProfile(),user.getArea() ,user.getEmail()))
                     .collect(Collectors.toList());
             return userResponses;
         } else {
