@@ -22,8 +22,8 @@ public class ChargeFunctions {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_CREDENTIALS,
                     "El cargo no está registrado");
-        } else {
-            return Charge;
-        }
+        } 
+        return Charge;
+
     }
 }

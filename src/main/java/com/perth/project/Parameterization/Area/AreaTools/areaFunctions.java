@@ -21,8 +21,8 @@ public class areaFunctions {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_CREDENTIALS,
                     "El area no esta registrada");
-        }else{
-            return area;
         }
+        return area;
+        
     }
 }

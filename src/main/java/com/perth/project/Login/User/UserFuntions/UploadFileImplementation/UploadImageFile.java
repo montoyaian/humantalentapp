@@ -1,11 +1,6 @@
 package com.perth.project.Login.User.UserFuntions.UploadFileImplementation;
 
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.springframework.web.multipart.MultipartFile;
 import com.perth.project.Login.exception.BusinessErrorCodes;
