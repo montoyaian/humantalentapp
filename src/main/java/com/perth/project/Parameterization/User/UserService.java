@@ -11,6 +11,7 @@ import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Login.User.User;
 import com.perth.project.Login.User.UserRepository;
 import com.perth.project.Login.User.UserFuntions.UserFuntions;
+import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadImageFile;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
@@ -25,6 +26,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserFuntions userFuntions;
+    private final UploadImageFile UploadImageFile;
+    private final UploadFileService UploadFileService;
     public AuthResponse editUser(EditUserRequest request, String UserName, MultipartFile file) {
         Optional<User> optionalUser = userRepository.findByUsername(UserName);
         if (!optionalUser.isPresent()) {
@@ -34,7 +37,7 @@ public class UserService {
         }
         if (file != null) {
             UploadImageFile.deletePhoto(UserName);
-            UploadImageFile.InnerUploadImageFile(file, UserName);
+            UploadFileService.handleFileUpload(file, UserName, "document", "labourSupport");
         }
         User user = optionalUser.get();
         user.setUsername(request.getUsername());

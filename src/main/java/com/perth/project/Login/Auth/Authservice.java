@@ -92,17 +92,12 @@ public class Authservice {
                 .blockedAccount(false)
                 .role(Role.USER)
                 .build();
-        AuthResponse validationResponse = userFuntions.Validation(user);
-        if (validationResponse != null) {
-            throw new BusinessException(
-                    BusinessErrorCodes.BAD_REGISTER,
-                    validationResponse.getResponse());
-        }
+        userFuntions.Validation(user);
 
         String templatePath = EmailFuntions.pathTemplate();
         try {
             UserFuntions.Notification(request.getEmail(), templatePath, user.getUsername(), emailSession, password);
-            uploadFileService.handleFileUpload(file, user.getUsername(), "image");
+            uploadFileService.handleFileUpload(file, user.getUsername(), "image","null");
             userRepository.save(user);
             return AuthResponse.builder()
                     .response(jwtService.getToken(user))

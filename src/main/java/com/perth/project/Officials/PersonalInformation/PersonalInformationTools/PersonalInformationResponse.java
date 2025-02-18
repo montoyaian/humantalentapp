@@ -14,7 +14,7 @@ public class PersonalInformationResponse {
     private String lastName;
     private String genre;
     private String civilStatus;
-    private Integer phone;
+    private String phone;
     private String email;
     private Integer neighbourhoodID;
     private String address;

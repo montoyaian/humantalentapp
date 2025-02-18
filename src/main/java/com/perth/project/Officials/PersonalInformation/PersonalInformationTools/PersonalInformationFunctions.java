@@ -1,5 +1,7 @@
 package com.perth.project.Officials.PersonalInformation.PersonalInformationTools;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +9,8 @@ import com.perth.project.Login.User.UserRepository;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
 import com.perth.project.Officials.PersonalInformation.Personal_Information;
+import com.perth.project.Parameterization.Neighbourhood.Neighbourhood;
+import com.perth.project.Parameterization.Neighbourhood.NeighbourhoodRepository;
 import com.perth.project.Officials.PersonalInformation.PersonalInformationRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class PersonalInformationFunctions {
     private final PersonalInformationRepository personalInformationRepository;
     private final UserRepository userRepository;
+    private final NeighbourhoodRepository neighbourhoodRepository;
     public Personal_Information checkInfo(String id){
         Personal_Information personalInformation = personalInformationRepository.findById(id)
         .orElse(null);
@@ -38,5 +43,16 @@ public class PersonalInformationFunctions {
                     BusinessErrorCodes.BAD_CREDENTIALS,
                     "La información personal ya existe");
         }
+    }
+
+    public void checkNeighbourhood(Integer Id){
+        Neighbourhood neighbourhood = neighbourhoodRepository.findById(Id)
+                                                .orElse(null);
+        if (neighbourhood == null){
+            throw new BusinessException(
+                BusinessErrorCodes.BAD_CREDENTIALS,
+                "No existe el barrio ingresado en nuestra base de datos");
+        }
+
     }
 }

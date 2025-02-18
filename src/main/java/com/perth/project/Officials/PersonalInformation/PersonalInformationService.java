@@ -33,6 +33,7 @@ public class PersonalInformationService {
                 .address(request.getAddress())
                 .birthday(request.getBirthday())
                 .build();
+        personalInformationFunctions.checkNeighbourhood(personalInformation.getNeighbourhoodID());
         personalInformationFunctions.checkIdentification(request.getId(),personalInformationRepository);
         personalInformationRepository.save(personalInformation);
         return AuthResponse.builder()
@@ -52,7 +53,7 @@ public class PersonalInformationService {
         personalInformation.setNeighbourhoodID(request.getNeighbourhoodID());
         personalInformation.setAddress(request.getAddress());
         personalInformation.setBirthday(request.getBirthday());
-
+        personalInformationFunctions.checkNeighbourhood(personalInformation.getNeighbourhoodID());
         personalInformationRepository.save(personalInformation);
         return AuthResponse.builder()
                 .response("Información personal editada correctamente")

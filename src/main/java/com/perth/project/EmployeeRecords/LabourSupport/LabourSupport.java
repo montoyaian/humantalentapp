@@ -1,4 +1,4 @@
-package com.perth.project.Officials.PersonalInformation;
+package com.perth.project.EmployeeRecords.LabourSupport;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -11,52 +11,38 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "personalInformation", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
-public class Personal_Information {
+@Table(name = "labour_support", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
+public class LabourSupport {
     @Id
     @Column(nullable = false)
     String ID;
 
     @Basic
     @Column(nullable = false)
-    String firstName;
+    String TypeIdentity;
 
     @Basic
     @Column(nullable = false)
-    String lastName;
+    String CompanyName;
 
     @Basic
     @Column(nullable = false)
-    String genre;
+    String Charge;
 
     @Basic
     @Column(nullable = false)
-    String civilStatus;
+    String Vinculation;
 
     @Basic
     @Column(nullable = false)
-    String phone;
+    int TimeService;
 
     @Basic
     @Column(nullable = false)
-    String email;
-
-    @Basic
-    @Column(nullable = false)
-    Integer neighbourhoodID;
-
-    @Basic
-    @Column(nullable = false)
-    String address;
-
-    @Basic
-    @Column(nullable = false)
-    Date birthday;
+    String SupportDocument;
 }

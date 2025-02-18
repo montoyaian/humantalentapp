@@ -27,7 +27,7 @@ public class EditPersonalInformationRequest {
     String civilStatus;
 
     @NotNull(message = "El teléfono es obligatorio")
-    Integer phone;
+    String phone;
 
     @NotNull(message = "El correo electrónico es obligatorio")
     String email;

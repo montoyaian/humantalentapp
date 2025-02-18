@@ -11,31 +11,41 @@ import lombok.RequiredArgsConstructor;
 import com.perth.project.Login.Email.EmailFuntions;
 import com.perth.project.Login.User.User;
 import com.perth.project.Login.User.UserRepository;
+import com.perth.project.Login.exception.BusinessErrorCodes;
+import com.perth.project.Login.exception.BusinessException;
+import com.perth.project.Parameterization.Area.AreaRepository;
 
 @Service
 @RequiredArgsConstructor
 public class UserFuntions {
 
     private final UserRepository userRepository;
+    private final AreaRepository areaRepository;
 
-    public AuthResponse Validation(User user) {
+    public void CheckArea(String area) {
+
+    }
+
+    public void Validation(User user) {
         UserDetails userfound = userRepository.findByIdentification(user.getIdentification()).orElse(null);
         UserDetails emailFound = userRepository.findByEmail(user.getEmail()).orElse(null);
         if (user.getIdentification().length() != 10) {
-            return AuthResponse.builder()
-                    .response("Identificacion no valida")
-                    .build();
+            throw new BusinessException(
+                    BusinessErrorCodes.BAD_REGISTER,
+                    "La identificación debe tener 10 caracteres");
 
         } else if (userfound != null) {
-            return AuthResponse.builder()
-                    .response("La identificacion del usuario ya esta registrada")
-                    .build();
+            throw new BusinessException(
+                    BusinessErrorCodes.BAD_REGISTER,
+                    "La identificación ingresada ya existe en nuestra base de datos");
         } else if (emailFound != null) {
-            return AuthResponse.builder()
-                    .response("El Email del usuario ya esta registrado")
-                    .build();
-        } else {
-            return null;
+            throw new BusinessException(
+                    BusinessErrorCodes.BAD_REGISTER,
+                    "El correo ingresado ya existe en nuestra base de datos");
+        }else if (areaRepository.findByName(user.getArea()).isEmpty()) {
+            throw new BusinessException(
+                    BusinessErrorCodes.BAD_REGISTER,
+                    "El area ingresada no existe en nuestra base de datos");
         }
     }
 
