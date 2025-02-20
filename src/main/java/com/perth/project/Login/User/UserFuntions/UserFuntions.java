@@ -22,10 +22,6 @@ public class UserFuntions {
     private final UserRepository userRepository;
     private final AreaRepository areaRepository;
 
-    public void CheckArea(String area) {
-
-    }
-
     public void Validation(User user) {
         UserDetails userfound = userRepository.findByIdentification(user.getIdentification()).orElse(null);
         UserDetails emailFound = userRepository.findByEmail(user.getEmail()).orElse(null);
@@ -64,26 +60,6 @@ public class UserFuntions {
         }
 
         return password.toString();
-    }
-
-    public static String Notification(String userEmail, String filePath, String userName, Session emailSession,
-            String password) throws MessagingException {
-
-        String content = EmailFuntions.readTemplate(filePath);
-        System.out.println(password);
-        String templateReplace = EmailFuntions.replaceValues(userName, password, content);
-        try {
-            Message message = new MimeMessage(emailSession);
-
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(userEmail));
-            message.setSubject("Inicio de seccion");
-            message.setContent(templateReplace, "text/html; charset=utf-8");
-
-            Transport.send(message);
-            return ("Correo enviado");
-        } catch (MessagingException e) {
-            throw new MessagingException(e.getMessage(), e);
-        }
     }
 
     public String CreateUserName(String firstName, String lastName) {

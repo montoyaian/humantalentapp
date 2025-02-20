@@ -22,8 +22,8 @@ public class SshConnection {
             remote.setHost("98.142.103.130");
             remote.setPort(22);
             remote.setIdentity("C:/Users/monto/.ssh/id_rsa");
-            remote.setPassphrase(null); // Si tienes una frase de contraseña, configúrala aquí
-            remote.setPassword(null); // Si necesitas una contraseña, configúrala aquí
+            remote.setPassphrase(null); 
+            remote.setPassword(null);
 
             Session session = getSession(remote);
             session.connect();

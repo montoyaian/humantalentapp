@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
+import com.perth.project.Login.User.UserFuntions.ResetPassword.ResetPasswordService;
 import com.perth.project.Parameterization.User.UserTools.EditUserRequest;
 
 @RestController
@@ -23,7 +24,6 @@ import com.perth.project.Parameterization.User.UserTools.EditUserRequest;
 public class UserController {
    
     private final UserService userService;
-
     @PutMapping(value = "admin/user/edit/{UserName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AuthResponse> editUser(@RequestPart(required = false) EditUserRequest request, 
                                               @PathVariable("UserName") String UserName,

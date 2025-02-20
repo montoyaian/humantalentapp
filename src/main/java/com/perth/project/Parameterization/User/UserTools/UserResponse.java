@@ -13,4 +13,5 @@ public class UserResponse {
     private String profile;
     private String area;
     private String email;
+    private Boolean IsBlockedAccount;
 }

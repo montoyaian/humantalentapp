@@ -10,16 +10,11 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.IOException;
 
 public class EmailFuntions {
-    public static String replaceValues(String userName, String Password, String template) {
 
-        return template
-                .replace("nuevo_usuario", userName)
-                .replace("contrasena_usuario", Password);
-    }
 
-    public static String pathTemplate() {
+    public static String pathTemplate(String templateName) {
         try {
-            ClassPathResource resource = new ClassPathResource("templates/Email.html");
+            ClassPathResource resource = new ClassPathResource("templates/" + templateName);
             Path tempFile = Files.createTempFile("email-template", ".html");
             Files.copy(resource.getInputStream(), tempFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
             return tempFile.toAbsolutePath().toString();

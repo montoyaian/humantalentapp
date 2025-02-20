@@ -20,6 +20,7 @@ import com.perth.project.Login.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 
 import com.perth.project.Login.User.UserFuntions.UserFuntions;
+import com.perth.project.Login.User.UserFuntions.Notification.LoginNotification;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
 
 @Service
@@ -94,9 +95,8 @@ public class Authservice {
                 .build();
         userFuntions.Validation(user);
 
-        String templatePath = EmailFuntions.pathTemplate();
         try {
-            UserFuntions.Notification(request.getEmail(), templatePath, user.getUsername(), emailSession, password);
+            LoginNotification.sendNotification(user.getEmail(), user.getUsername(),password, emailSession );
             uploadFileService.handleFileUpload(file, user.getUsername(), "image","null");
             userRepository.save(user);
             return AuthResponse.builder()
@@ -108,4 +108,6 @@ public class Authservice {
                     e.getMessage());
         }
     }
+
+    
 }
