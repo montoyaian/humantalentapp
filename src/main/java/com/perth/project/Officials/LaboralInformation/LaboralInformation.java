@@ -18,11 +18,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "laboralInformation", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
+@Table(name = "laboral_information", uniqueConstraints = { @UniqueConstraint(columnNames = { "UserId" }) })
 public class LaboralInformation {
     @Id
-    @Column(nullable = false)
-    String ID;
+    @Column(name = "userId", nullable = false)
+    String userId;
 
     @Basic
     @Column(nullable = false)
@@ -47,6 +47,4 @@ public class LaboralInformation {
     @Basic
     @Column(nullable = false)
     Date dateOfEntry;
-
-
 }

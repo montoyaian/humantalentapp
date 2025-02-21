@@ -11,14 +11,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterRequest {
+
+    @NotNull(message = "La identificación es obligatoria")
+    private String id;
     @NotNull(message = "El nombre es obligatorio")
     private String firstName;
 
     @NotNull(message = "El apellido es obligatorio")
     private String lastName;
 
-    @NotNull(message = "La identificación es obligatoria")
-    private String identification;
+
 
     @NotNull(message = "El perfil es obligatorio")
     private String profile;

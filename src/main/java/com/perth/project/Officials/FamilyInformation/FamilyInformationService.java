@@ -24,7 +24,7 @@ public class FamilyInformationService {
 
     public AuthResponse createFamilyInformation(FamilyInformationRequest request) {
         FamilyInformation familyInformation = FamilyInformation.builder()
-                .ID(request.getId())
+                .userId(request.getId())
                 .married(request.isMarried())
                 .sons(request.getSons())
                 .build();
@@ -59,7 +59,7 @@ public class FamilyInformationService {
             List<FamilyInformation> familyInformations = familyInformationRepository.findAll();
             List<FamilyInformationResponse> familyInformationResponses = familyInformations.stream()
                     .map(familyInformation -> new FamilyInformationResponse(
-                            familyInformation.getID(),
+                            familyInformation.getUserId(),
                             familyInformation.isMarried(),
                             familyInformation.getSons()))
                     .collect(Collectors.toList());
@@ -67,7 +67,7 @@ public class FamilyInformationService {
         } else {
             FamilyInformation familyInformation = familyInformationTools.checkInfo(id);
             return new FamilyInformationResponse(
-                    familyInformation.getID(),
+                    familyInformation.getUserId(),
                     familyInformation.isMarried(),
                     familyInformation.getSons());
         }

@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EditUserRequest {
     private String username;
-    private String identification;
     private String profile;
     private String area;
     private String email;

@@ -9,11 +9,9 @@ import org.springframework.data.repository.query.Param;
 
 import jakarta.transaction.Transactional;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, String> {
 
     Optional<User> findByUsername(String username);
-
-    Optional<User> findByIdentification(String identification);
 
     Optional<User> findByEmail(String email);
 

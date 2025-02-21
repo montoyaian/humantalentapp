@@ -24,7 +24,7 @@ public class OtherInformationService {
     public AuthResponse createOtherInformation(OtherInformationRequest request) {
 
         OtherInformation otherInformation = OtherInformation.builder()
-                .ID(request.getId())
+                .userId(request.getId())
                 .disability(request.getDisability())
                 .languages(request.getLanguages())
                 .EPS(request.getEps())
@@ -77,7 +77,7 @@ public class OtherInformationService {
             List<OtherInformation> otherInformations = otherInformationRepository.findAll();
             List<OtherInformationResponse> otherInformationResponses = otherInformations.stream()
                     .map(otherInformation -> new OtherInformationResponse(
-                            otherInformation.getID(),
+                            otherInformation.getUserId(),
                             otherInformation.getDisability(),
                             otherInformation.getLanguages(),
                             otherInformation.getEPS(),
@@ -94,7 +94,7 @@ public class OtherInformationService {
         } else {
             OtherInformation otherInformation = otherInformationTools.checkInfo(id);
             return new OtherInformationResponse(
-                    otherInformation.getID(),
+                    otherInformation.getUserId(),
                     otherInformation.getDisability(),
                     otherInformation.getLanguages(),
                     otherInformation.getEPS(),

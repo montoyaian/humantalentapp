@@ -83,9 +83,9 @@ public class Authservice {
     public AuthResponse register(RegisterRequest request, MultipartFile file) {
         String password = UserFuntions.generatePassword();
         User user = User.builder()
+                .ID(request.getId())
                 .username(userFuntions.CreateUserName(request.getFirstName(), request.getLastName()))
                 .password(passwordEncoder.encode(password))
-                .identification(request.getIdentification())
                 .profile(request.getProfile())
                 .area(request.getArea())
                 .email(request.getEmail())
@@ -93,6 +93,12 @@ public class Authservice {
                 .blockedAccount(false)
                 .role(Role.USER)
                 .build();
+
+        userRepository.findById(user.getID()).ifPresent(u -> {
+            throw new BusinessException(
+                    BusinessErrorCodes.BAD_REGISTER,
+                    "La identificacion digitada ya existe");
+        });
         userFuntions.Validation(user);
 
         try {

@@ -23,17 +23,13 @@ public class UserFuntions {
     private final AreaRepository areaRepository;
 
     public void Validation(User user) {
-        UserDetails userfound = userRepository.findByIdentification(user.getIdentification()).orElse(null);
+        UserDetails userfound = userRepository.findById(user.getID()).orElse(null);
         UserDetails emailFound = userRepository.findByEmail(user.getEmail()).orElse(null);
-        if (user.getIdentification().length() != 10) {
+        if (user.getID().length() != 10) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_REGISTER,
                     "La identificación debe tener 10 caracteres");
 
-        } else if (userfound != null) {
-            throw new BusinessException(
-                    BusinessErrorCodes.BAD_REGISTER,
-                    "La identificación ingresada ya existe en nuestra base de datos");
         } else if (emailFound != null) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_REGISTER,

@@ -7,8 +7,8 @@ public class FtpConnection {
     public static FTPClient conecFtpClient(){
         FTPClient ftpClient = new FTPClient();
         try {
-            ftpClient.connect(System.getenv("DIRECTION"), 21);
-            ftpClient.login(System.getenv("CLOUDUSER"), System.getenv("CLOUDPASSWORD"));
+            ftpClient.connect("98.142.103.130", 21);
+            ftpClient.login("humantalent", "Admin$2025");
             ftpClient.enterLocalPassiveMode();
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
 

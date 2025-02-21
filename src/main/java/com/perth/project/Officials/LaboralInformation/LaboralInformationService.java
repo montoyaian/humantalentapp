@@ -23,7 +23,7 @@ public class LaboralInformationService {
 
     public AuthResponse createLaboralInformation(LaboralInformationRequest request) {
         LaboralInformation laboralInformation = LaboralInformation.builder()
-                .ID(request.getId())
+                .userId(request.getId())
                 .chargeID(request.getChargeID())
                 .workAreaID(request.getWorkAreaID())
                 .grade(request.getGrade())
@@ -68,7 +68,7 @@ public class LaboralInformationService {
             List<LaboralInformation> laboralInformations = laboralInformationRepository.findAll();
             List<LaboralInformationResponse> laboralInformationResponses = laboralInformations.stream()
                     .map(laboralInformation -> new LaboralInformationResponse(
-                            laboralInformation.getID(),
+                            laboralInformation.getUserId(),
                             laboralInformation.getChargeID(),
                             laboralInformation.getWorkAreaID(),
                             laboralInformation.getGrade(),
@@ -80,7 +80,7 @@ public class LaboralInformationService {
         } else {
             LaboralInformation laboralInformation = laboralInformationFunctions.checkInfo(id);
             return new LaboralInformationResponse(
-                    laboralInformation.getID(),
+                    laboralInformation.getUserId(),
                     laboralInformation.getChargeID(),
                     laboralInformation.getWorkAreaID(),
                     laboralInformation.getGrade(),

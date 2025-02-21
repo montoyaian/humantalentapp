@@ -18,11 +18,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "personalInformation", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
+@Table(name = "personal_information", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
 public class Personal_Information {
     @Id
     @Column(nullable = false)
-    String ID;
+    String UserId;
 
     @Basic
     @Column(nullable = false)

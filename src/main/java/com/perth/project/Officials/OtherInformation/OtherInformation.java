@@ -16,11 +16,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "other_information", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
+@Table(name = "other_information", uniqueConstraints = { @UniqueConstraint(columnNames = { "userId" }) })
 public class OtherInformation {
     @Id
     @Column(nullable = false)
-    String ID;
+    String userId;
 
     @Basic
     @Column(nullable = false)

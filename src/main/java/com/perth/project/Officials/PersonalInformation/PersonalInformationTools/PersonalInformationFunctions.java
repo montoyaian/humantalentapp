@@ -33,7 +33,7 @@ public class PersonalInformationFunctions {
     }  
 
     public <T> void checkIdentification(String id,JpaRepository<T, String> repository){
-        if(!userRepository.findByIdentification(id).isPresent()){
+        if(!userRepository.findById(id).isPresent()){
             throw new BusinessException(
                     BusinessErrorCodes.BAD_CREDENTIALS,
                     "No existe usuario con esa identificación");
@@ -41,7 +41,7 @@ public class PersonalInformationFunctions {
         else if (repository.findById(id).isPresent()) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_CREDENTIALS,
-                    "La información personal ya existe");
+                    "La información ya esta registrada");
         }
     }
 

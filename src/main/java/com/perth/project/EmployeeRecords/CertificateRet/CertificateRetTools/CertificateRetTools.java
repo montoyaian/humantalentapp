@@ -29,7 +29,7 @@ public class CertificateRetTools {
     }
 
     public String checkIdentification(String id) {
-        User user = userRepository.findByIdentification(id)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(
                         BusinessErrorCodes.BAD_CREDENTIALS,
                         "No existe usuario con esa identificación"));

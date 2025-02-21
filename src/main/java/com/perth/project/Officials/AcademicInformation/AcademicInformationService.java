@@ -23,7 +23,7 @@ public class AcademicInformationService {
     private final PersonalInformationFunctions PersonalInformationFunctions;
     public AuthResponse createAcademicInformation(AcademicInformationRequest request) {
         AcademicInformation academicInformation = AcademicInformation.builder()
-                .ID(request.getId()) 
+                .UserId(request.getId()) 
                 .profession(request.getProfession())
                 .lastStudyType(request.getLastStudyType())
                 .build();
@@ -58,7 +58,7 @@ public class AcademicInformationService {
             List<AcademicInformation> academicInformations = academicInformationRepository.findAll();
             List<AcademicInformationResponse> academicInformationResponses = academicInformations.stream()
                     .map(academicInformation -> new AcademicInformationResponse(
-                            academicInformation.getID(),
+                            academicInformation.getUserId(),
                             academicInformation.getProfession(),
                             academicInformation.getLastStudyType()))
                     .collect(Collectors.toList());
@@ -66,7 +66,7 @@ public class AcademicInformationService {
         } else {
             AcademicInformation academicInformation = academicInformationTools.checkInfo(id);
             return new AcademicInformationResponse(
-                    academicInformation.getID(),
+                    academicInformation.getUserId(),
                     academicInformation.getProfession(),
                     academicInformation.getLastStudyType());
         }

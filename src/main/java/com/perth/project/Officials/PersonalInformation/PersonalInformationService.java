@@ -22,7 +22,7 @@ public class PersonalInformationService {
 
     public AuthResponse createPersonalInformation(PersonalInformationRequest request) {
         Personal_Information personalInformation = Personal_Information.builder()
-                .ID(request.getId())
+                .UserId(request.getId())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .genre(request.getGenre())
@@ -73,7 +73,7 @@ public class PersonalInformationService {
             List<Personal_Information> personalInformations = personalInformationRepository.findAll();
             List<PersonalInformationResponse> personalInformationResponses = personalInformations.stream()
                     .map(personalInformation -> new PersonalInformationResponse(
-                            personalInformation.getID(),
+                            personalInformation.getUserId(),
                             personalInformation.getFirstName(),
                             personalInformation.getLastName(),
                             personalInformation.getGenre(),
@@ -88,7 +88,7 @@ public class PersonalInformationService {
         } else {
             Personal_Information personalInformation = personalInformationFunctions.checkInfo(id);
             return new PersonalInformationResponse(
-                    personalInformation.getID(),
+                    personalInformation.getUserId(),
                     personalInformation.getFirstName(),
                     personalInformation.getLastName(),
                     personalInformation.getGenre(),
