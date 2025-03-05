@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFile;
+import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
 import com.perth.project.EmployeeRecords.CertificateRet.CertificateRetTools.CertificateRetRequest;
 import com.perth.project.EmployeeRecords.CertificateRet.CertificateRetTools.CertificateRetResponse;
@@ -23,11 +23,11 @@ public class CertificateRetService {
     private final CertificateRetRepository certificateRetRepository;
     private final CertificateRetTools certificateRetTools;
     private final UploadFileService uploadFileService; 
-    private final UploadDocumentFile uploadDocumentFile;
+    private final UploadDocumentFileSftp uploadDocumentFile;
     public AuthResponse createCertificateRet(CertificateRetRequest request, MultipartFile file) {
-        String UserName = certificateRetTools.checkIdentification(request.getId());
+        String UserName = certificateRetTools.checkIdentification(request.getUser_id());
         CertificateRet certificateRet = CertificateRet.builder()
-                .ID(request.getId())
+                .user_id(request.getUser_id())
                 .Year(request.getYear())
                 .detachable(UserName)
                 .build();
@@ -41,7 +41,9 @@ public class CertificateRetService {
 
     public AuthResponse editCertificateRet(String id, EditCertificateRet request, MultipartFile file) {
         CertificateRet certificateRet = certificateRetTools.checkInfo(id);
-        certificateRet.setYear(request.getYear());
+        if(request != null){
+            certificateRet.setYear(request.getYear());
+        }        
         if (file != null) {
             uploadFileService.handleFileUpload(file, certificateRet.getDetachable(), "document", "certificateRet");
         }
@@ -65,7 +67,7 @@ public class CertificateRetService {
             List<CertificateRet> certificateRets = certificateRetRepository.findAll();
             List<CertificateRetResponse> certificateRetResponses = certificateRets.stream()
                     .map(certificateRet -> new CertificateRetResponse(
-                            certificateRet.getID(),
+                            certificateRet.getUser_id(),
                             certificateRet.getYear(),
                             certificateRet.getDetachable()))
                     .collect(Collectors.toList());
@@ -73,7 +75,7 @@ public class CertificateRetService {
         } else {
             CertificateRet certificateRet = certificateRetTools.checkInfo(id);
             return new CertificateRetResponse(
-                    certificateRet.getID(),
+                    certificateRet.getUser_id(),
                     certificateRet.getYear(),
                     certificateRet.getDetachable());
         }

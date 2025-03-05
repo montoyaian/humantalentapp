@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LabourSupportRequest {
     @NotNull(message = "El ID es obligatorio")
-    String id;
+    String user_id;
 
     @NotNull(message = "El tipo de identidad es obligatorio")
     String typeIdentity;

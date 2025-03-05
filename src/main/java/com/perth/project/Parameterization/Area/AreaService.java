@@ -25,16 +25,11 @@ public class AreaService {
                 .code(request.getCode())
                 .name(request.getName())
                 .build();
-        if (areaRepository.findByCode(area.getCode()).isPresent()) {
-            return AuthResponse.builder()
-                    .response("El area ya existe")
-                    .build();
-        }else{
+        areaFunctions.checkAreaExit(area.getCode(),area.getName());
         areaRepository.save(area);
         return AuthResponse.builder()
             .response("Area creada correctamente")
             .build();
-        }
     }
 
     public AuthResponse editArea(Integer code, EditAreaRequest request) {

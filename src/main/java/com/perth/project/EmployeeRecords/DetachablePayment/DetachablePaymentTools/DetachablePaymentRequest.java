@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DetachablePaymentRequest {
     @NotNull(message = "El ID es obligatorio")
-    String id;
+    String user_id;
 
     @NotNull(message = "El mes es obligatorio")
     String month;

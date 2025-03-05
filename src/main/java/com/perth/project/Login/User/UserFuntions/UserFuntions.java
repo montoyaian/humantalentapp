@@ -23,7 +23,6 @@ public class UserFuntions {
     private final AreaRepository areaRepository;
 
     public void Validation(User user) {
-        UserDetails userfound = userRepository.findById(user.getID()).orElse(null);
         UserDetails emailFound = userRepository.findByEmail(user.getEmail()).orElse(null);
         if (user.getID().length() != 10) {
             throw new BusinessException(

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AcademicSupportRequest {
     @NotNull(message = "El ID es obligatorio")
-    String id;
+    String user_id;
 
     @NotNull(message = "El tipo de formación es obligatorio")
     String typeOfTraining;

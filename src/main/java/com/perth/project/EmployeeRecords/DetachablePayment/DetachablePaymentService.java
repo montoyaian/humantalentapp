@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFile;
+import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentRequest;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentResponse;
@@ -23,11 +23,11 @@ public class DetachablePaymentService {
     private final DetachablePaymentRepository detachablePaymentRepository;
     private final DetachablePaymentTools detachablePaymentTools;
     private final UploadFileService uploadFileService; 
-    private final UploadDocumentFile uploadDocumentFile;
+    private final UploadDocumentFileSftp uploadDocumentFile;
     public AuthResponse createDetachablePayment(DetachablePaymentRequest request, MultipartFile file) {
-        String UserName = detachablePaymentTools.checkIdentification(request.getId());
+        String UserName = detachablePaymentTools.checkIdentification(request.getUser_id());
         DetachablePayment detachablePayment = DetachablePayment.builder()
-                .ID(request.getId())
+                .user_id(request.getUser_id())
                 .Month(request.getMonth())
                 .Year(request.getYear())
                 .detachable(UserName)
@@ -42,8 +42,10 @@ public class DetachablePaymentService {
 
     public AuthResponse editDetachablePayment(String id, EditDetachablePayment request, MultipartFile file) {
         DetachablePayment detachablePayment = detachablePaymentTools.checkInfo(id);
-        detachablePayment.setMonth(request.getMonth());
-        detachablePayment.setYear(request.getYear());
+        if(request!= null){
+            detachablePayment.setMonth(request.getMonth());
+            detachablePayment.setYear(request.getYear());    
+        }
         if (file != null) {
             uploadFileService.handleFileUpload(file, detachablePayment.getDetachable(), "document", "detachablePayment");
         }
@@ -67,7 +69,7 @@ public class DetachablePaymentService {
             List<DetachablePayment> detachablePayments = detachablePaymentRepository.findAll();
             List<DetachablePaymentResponse> detachablePaymentResponses = detachablePayments.stream()
                     .map(detachablePayment -> new DetachablePaymentResponse(
-                            detachablePayment.getID(),
+                            detachablePayment.getUser_id(),
                             detachablePayment.getMonth(),
                             detachablePayment.getYear(),
                             detachablePayment.getDetachable()))
@@ -76,7 +78,7 @@ public class DetachablePaymentService {
         } else {
             DetachablePayment detachablePayment = detachablePaymentTools.checkInfo(id);
             return new DetachablePaymentResponse(
-                    detachablePayment.getID(),
+                    detachablePayment.getUser_id(),
                     detachablePayment.getMonth(),
                     detachablePayment.getYear(),
                     detachablePayment.getDetachable());

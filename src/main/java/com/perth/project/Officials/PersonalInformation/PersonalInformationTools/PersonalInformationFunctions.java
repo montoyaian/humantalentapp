@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.perth.project.Login.User.UserRepository;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
-import com.perth.project.Officials.PersonalInformation.Personal_Information;
+import com.perth.project.Officials.PersonalInformation.funcionarios;
 import com.perth.project.Parameterization.Neighbourhood.Neighbourhood;
 import com.perth.project.Parameterization.Neighbourhood.NeighbourhoodRepository;
 import com.perth.project.Officials.PersonalInformation.PersonalInformationRepository;
@@ -21,8 +21,8 @@ public class PersonalInformationFunctions {
     private final PersonalInformationRepository personalInformationRepository;
     private final UserRepository userRepository;
     private final NeighbourhoodRepository neighbourhoodRepository;
-    public Personal_Information checkInfo(String id){
-        Personal_Information personalInformation = personalInformationRepository.findById(id)
+    public funcionarios checkInfo(String id){
+        funcionarios personalInformation = personalInformationRepository.findById(id)
         .orElse(null);
         if (personalInformation == null) {
             throw new BusinessException(

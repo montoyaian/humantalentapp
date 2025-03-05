@@ -16,11 +16,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "certificate_ret", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
+@Table(name = "certificate_ret", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id" }) })
 public class CertificateRet {
     @Id
     @Column(nullable = false)
-    String ID;
+    String user_id;
 
     @Basic
     @Column(nullable = false)

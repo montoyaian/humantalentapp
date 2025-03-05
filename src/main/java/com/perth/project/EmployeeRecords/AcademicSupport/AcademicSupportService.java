@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFile;
+import com.perth.project.Login.User.User;
+import com.perth.project.Login.User.UserRepository;
+import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
 import com.perth.project.EmployeeRecords.AcademicSupport.AcademicSupportTools.AcademicSupportRequest;
 import com.perth.project.EmployeeRecords.AcademicSupport.AcademicSupportTools.AcademicSupportResponse;
@@ -23,12 +25,12 @@ public class AcademicSupportService {
     private final AcademicSupportRepository academicSupportRepository;
     private final AcademicSupportTools academicSupportTools;
     private final UploadFileService uploadFileService; 
-    private final UploadDocumentFile uploadDocumentFile;
-
+    private final UploadDocumentFileSftp uploadDocumentFile;
+    private final UserRepository userRepository;
     public AuthResponse createAcademicSupport(AcademicSupportRequest request,MultipartFile file) {
-        String UserName = academicSupportTools.checkIdentification(request.getId());
+        String UserName = academicSupportTools.checkIdentification(request.getUser_id());
         AcademicSupport academicSupport = AcademicSupport.builder()
-                .ID(request.getId())
+                .user_id(request.getUser_id())
                 .TypeOfTraining(request.getTypeOfTraining())
                 .TypeOfStudy(request.getTypeOfStudy())
                 .Institution(request.getInstitution())
@@ -46,15 +48,19 @@ public class AcademicSupportService {
 
     public AuthResponse editAcademicSupport(String id, EditAcademicSupport request,MultipartFile file) {
         AcademicSupport academicSupport = academicSupportTools.checkInfo(id);
-        academicSupport.setTypeOfTraining(request.getTypeOfTraining());
-        academicSupport.setTypeOfStudy(request.getTypeOfStudy());
-        academicSupport.setInstitution(request.getInstitution());
-        academicSupport.setAcademicTraining(request.getAcademicTraining());
-        academicSupport.setGraduate(request.isGraduate());
-        if (file != null) {
-            uploadFileService.handleFileUpload(file,academicSupport.getSupportDocument(),"document","academicSupport");
+        if(request != null){
+            academicSupport.setTypeOfTraining(request.getTypeOfTraining());
+            academicSupport.setTypeOfStudy(request.getTypeOfStudy());
+            academicSupport.setInstitution(request.getInstitution());
+            academicSupport.setAcademicTraining(request.getAcademicTraining());
+            academicSupport.setGraduate(request.isGraduate());
+            academicSupportRepository.save(academicSupport);
         }
-        academicSupportRepository.save(academicSupport);
+        User user = userRepository.findById(id).orElse(null);
+        if (file != null) {
+            uploadFileService.handleFileUpload(file,user.getUsername(),"document","academicSupport");
+        }
+        
         return AuthResponse.builder()
                 .response("Información de soporte académico editada correctamente")
                 .build();
@@ -74,7 +80,7 @@ public class AcademicSupportService {
             List<AcademicSupport> academicSupports = academicSupportRepository.findAll();
             List<AcademicSupportResponse> academicSupportResponses = academicSupports.stream()
                     .map(academicSupport -> new AcademicSupportResponse(
-                            academicSupport.getID(),
+                            academicSupport.getUser_id(),
                             academicSupport.getTypeOfTraining(),
                             academicSupport.getTypeOfStudy(),
                             academicSupport.getInstitution(),
@@ -86,7 +92,7 @@ public class AcademicSupportService {
         } else {
             AcademicSupport academicSupport = academicSupportTools.checkInfo(id);
             return new AcademicSupportResponse(
-                    academicSupport.getID(),
+                    academicSupport.getUser_id(),
                     academicSupport.getTypeOfTraining(),
                     academicSupport.getTypeOfStudy(),
                     academicSupport.getInstitution(),

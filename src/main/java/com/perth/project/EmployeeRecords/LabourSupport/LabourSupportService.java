@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFile;
+import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
 import com.perth.project.EmployeeRecords.LabourSupport.LabourSupportTools.LabourSupportRequest;
 import com.perth.project.EmployeeRecords.LabourSupport.LabourSupportTools.LabourSupportResponse;
@@ -23,11 +23,11 @@ public class LabourSupportService {
     private final LabourSupportRepository labourSupportRepository;
     private final LabourSupportTools labourSupportTools;
     private final UploadFileService uploadFileService; 
-    private final UploadDocumentFile uploadDocumentFile;
+    private final UploadDocumentFileSftp uploadDocumentFile;
     public AuthResponse createLabourSupport(LabourSupportRequest request, MultipartFile file) {
-        String UserName = labourSupportTools.checkIdentification(request.getId());
+        String UserName = labourSupportTools.checkIdentification(request.getUser_id());
         LabourSupport labourSupport = LabourSupport.builder()
-                .ID(request.getId())
+                .user_id(request.getUser_id())
                 .TypeIdentity(request.getTypeIdentity())
                 .CompanyName(request.getCompanyName())
                 .Charge(request.getCharge())
@@ -45,11 +45,13 @@ public class LabourSupportService {
 
     public AuthResponse editLabourSupport(String id, EditLabourSupport request, MultipartFile file) {
         LabourSupport labourSupport = labourSupportTools.checkInfo(id);
-        labourSupport.setTypeIdentity(request.getTypeIdentity());
-        labourSupport.setCompanyName(request.getCompanyName());
-        labourSupport.setCharge(request.getCharge());
-        labourSupport.setVinculation(request.getVinculation());
-        labourSupport.setTimeService(request.getTimeService());
+        if (request != null){
+            labourSupport.setTypeIdentity(request.getTypeIdentity());
+            labourSupport.setCompanyName(request.getCompanyName());
+            labourSupport.setCharge(request.getCharge());
+            labourSupport.setVinculation(request.getVinculation());
+            labourSupport.setTimeService(request.getTimeService());    
+        }
         if (file != null) {
             uploadFileService.handleFileUpload(file, labourSupport.getSupportDocument(), "document", "labourSupport");
         }
@@ -73,7 +75,7 @@ public class LabourSupportService {
             List<LabourSupport> labourSupports = labourSupportRepository.findAll();
             List<LabourSupportResponse> labourSupportResponses = labourSupports.stream()
                     .map(labourSupport -> new LabourSupportResponse(
-                            labourSupport.getID(),
+                            labourSupport.getUser_id(),
                             labourSupport.getTypeIdentity(),
                             labourSupport.getCompanyName(),
                             labourSupport.getCharge(),
@@ -85,7 +87,7 @@ public class LabourSupportService {
         } else {
             LabourSupport labourSupport = labourSupportTools.checkInfo(id);
             return new LabourSupportResponse(
-                    labourSupport.getID(),
+                    labourSupport.getUser_id(),
                     labourSupport.getTypeIdentity(),
                     labourSupport.getCompanyName(),
                     labourSupport.getCharge(),

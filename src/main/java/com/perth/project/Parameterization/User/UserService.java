@@ -10,9 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Login.User.User;
 import com.perth.project.Login.User.UserRepository;
+import com.perth.project.Login.User.UserFuntions.UploadFile;
 import com.perth.project.Login.User.UserFuntions.UserFuntions;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadImageFile;
+import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
+import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadImageFileSftp;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
 import com.perth.project.Parameterization.User.UserTools.EditUserRequest;
@@ -26,8 +27,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserFuntions userFuntions;
-    private final UploadImageFile UploadImageFile;
-    private final UploadFileService UploadFileService;
+    private final UploadImageFileSftp UploadImageFile;
+    private final UploadFile UploadFileService;
+
     public AuthResponse editUser(EditUserRequest request, String UserName, MultipartFile file) {
         Optional<User> optionalUser = userRepository.findByUsername(UserName);
         if (!optionalUser.isPresent()) {
@@ -37,17 +39,17 @@ public class UserService {
         }
         if (file != null) {
             UploadImageFile.deletePhoto(UserName);
-            UploadFileService.handleFileUpload(file, UserName, "document", "labourSupport");
-        }
-        User user = optionalUser.get();
-        user.setUsername(request.getUsername());
-        user.setProfile(request.getProfile());
-        user.setArea(request.getArea());
-        user.setEmail(request.getEmail());
+            UploadFileService.handleFileUpload(file, UserName, "image", "labourSupport");
+        }   
+        if (request != null && (request.getProfile() != null || request.getArea() != null || request.getEmail() != null)) {
+            System.out.print("optionalUser");           
+            User user = optionalUser.get();
+            user.setProfile(request.getProfile());
+            user.setArea(request.getArea());
+            user.setEmail(request.getEmail());
 
-        userFuntions.Validation(user);
-        userRepository.save(user);
-
+            userRepository.save(user);
+        }        
         return AuthResponse.builder()
                 .response("usuario editado correctamente")
                 .build();

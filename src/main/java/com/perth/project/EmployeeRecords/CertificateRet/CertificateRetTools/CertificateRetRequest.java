@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CertificateRetRequest {
     @NotNull(message = "El ID es obligatorio")
-    String id;
+    String user_id;
 
     @NotNull(message = "El año es obligatorio")
     int year;

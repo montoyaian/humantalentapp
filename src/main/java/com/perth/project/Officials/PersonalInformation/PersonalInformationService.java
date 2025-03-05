@@ -21,7 +21,7 @@ public class PersonalInformationService {
     private final PersonalInformationFunctions personalInformationFunctions;
 
     public AuthResponse createPersonalInformation(PersonalInformationRequest request) {
-        Personal_Information personalInformation = Personal_Information.builder()
+        funcionarios personalInformation = funcionarios.builder()
                 .UserId(request.getId())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -43,7 +43,7 @@ public class PersonalInformationService {
     }
 
     public AuthResponse editPersonalInformation(String id, EditPersonalInformationRequest request) {
-        Personal_Information personalInformation = personalInformationFunctions.checkInfo(id);
+        funcionarios personalInformation = personalInformationFunctions.checkInfo(id);
         personalInformation.setFirstName(request.getFirstName());
         personalInformation.setLastName(request.getLastName());
         personalInformation.setGenre(request.getGenre());
@@ -61,7 +61,7 @@ public class PersonalInformationService {
     }
 
     public AuthResponse deletePersonalInformation(String id) {
-        Personal_Information personalInformation = personalInformationFunctions.checkInfo(id);
+        funcionarios personalInformation = personalInformationFunctions.checkInfo(id);
         personalInformationRepository.delete(personalInformation);
         return AuthResponse.builder()
                 .response("Información personal eliminada correctamente")
@@ -70,7 +70,7 @@ public class PersonalInformationService {
 
     public Object readPersonalInformation(String id) {
         if ("all".equalsIgnoreCase(id)) {
-            List<Personal_Information> personalInformations = personalInformationRepository.findAll();
+            List<funcionarios> personalInformations = personalInformationRepository.findAll();
             List<PersonalInformationResponse> personalInformationResponses = personalInformations.stream()
                     .map(personalInformation -> new PersonalInformationResponse(
                             personalInformation.getUserId(),
@@ -86,7 +86,7 @@ public class PersonalInformationService {
                     .collect(Collectors.toList());
             return personalInformationResponses;
         } else {
-            Personal_Information personalInformation = personalInformationFunctions.checkInfo(id);
+            funcionarios personalInformation = personalInformationFunctions.checkInfo(id);
             return new PersonalInformationResponse(
                     personalInformation.getUserId(),
                     personalInformation.getFirstName(),

@@ -4,5 +4,5 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PersonalInformationRepository extends JpaRepository<Personal_Information, String> {
+public interface PersonalInformationRepository extends JpaRepository<funcionarios, String> {
 }

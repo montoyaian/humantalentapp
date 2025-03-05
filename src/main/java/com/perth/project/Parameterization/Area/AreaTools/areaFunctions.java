@@ -25,4 +25,18 @@ public class areaFunctions {
         return area;
         
     }
-}
+
+    public void checkAreaExit(Integer code, String name) {
+        if (areaRepository.findByCode(code).isPresent()) {
+            throw new BusinessException(
+                    BusinessErrorCodes.BAD_CREDENTIALS,
+                    "El área ya está registrada por código");
+        }
+    
+        if (areaRepository.findByName(name).isPresent()) {
+            throw new BusinessException(                                             
+                    BusinessErrorCodes.BAD_CREDENTIALS,
+                    "El área ya está registrada por nombre");
+        }
+    }
+}    

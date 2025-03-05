@@ -6,19 +6,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
+
+import lombok.AllArgsConstructor;
+
 import com.perth.project.Login.User.UserFuntions.UploadFile;
 
 @Service
+@AllArgsConstructor
 public class UploadFileService implements UploadFile {
 
-    private final UploadImageFile uploadImageFile;
-    private final UploadDocumentFile uploadDocumentFile;
-
-    @Autowired
-    public UploadFileService(UploadImageFile uploadImageFile, UploadDocumentFile uploadDocumentFile) {
-        this.uploadImageFile = uploadImageFile;
-        this.uploadDocumentFile = uploadDocumentFile;
-    }
+    private final UploadImageFileSftp uploadImageFile;
+    private final UploadDocumentFileSftp uploadDocumentFile;
 
     @Override
     public String handleFileUpload(MultipartFile file, String fileName, String fileType, String fileInfo) {
@@ -40,7 +38,7 @@ public class UploadFileService implements UploadFile {
         } catch (Exception e) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_REGISTER,
-                    "Error al subir el archivo");
+                    "Error al subir el archivo" + e.getMessage());
         }
     }
 }
