@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 public class UserResponse {
     private String id;
     private String username;
-    private String profile;
-    private String area;
+    private Integer profile;
+    private Integer area;
     private String email;
     private Boolean IsBlockedAccount;
 }

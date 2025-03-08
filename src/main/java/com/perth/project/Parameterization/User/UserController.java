@@ -1,6 +1,8 @@
 package com.perth.project.Parameterization.User;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
-import com.perth.project.Login.User.UserFuntions.ResetPassword.ResetPasswordService;
+import com.perth.project.Login.User.UserFuntions.DownloadImplemetation.DownloadDocumentFileSftp;
+import com.perth.project.Login.User.UserFuntions.DownloadImplemetation.DownloadImageFileSftp;
 import com.perth.project.Parameterization.User.UserTools.EditUserRequest;
 
 @RestController
@@ -22,7 +25,8 @@ import com.perth.project.Parameterization.User.UserTools.EditUserRequest;
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class UserController {
-   
+    private final DownloadDocumentFileSftp fileDownloadService;
+    private final DownloadImageFileSftp imageDownloadService;
     private final UserService userService;
     @PutMapping(value = "admin/user/edit/{UserName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AuthResponse> editUser(@RequestPart(required = false) EditUserRequest request, 
@@ -40,5 +44,14 @@ public class UserController {
     public ResponseEntity<Object> getUser(@PathVariable("UserName") String UserName) {
         return ResponseEntity.ok(userService.readUser(UserName));
     }
+    
+    @GetMapping("user/document/download/{fileType}/{fileName}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName, @PathVariable String fileType) {
+        return fileDownloadService.downloadFile(fileName, fileType);
+    }
 
+    @GetMapping("user/image/download/{fileName}")
+    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String fileName) {
+        return imageDownloadService.downloadImageFile(fileName);
+    }
 }

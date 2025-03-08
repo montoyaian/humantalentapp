@@ -11,8 +11,6 @@ import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Login.User.User;
 import com.perth.project.Login.User.UserRepository;
 import com.perth.project.Login.User.UserFuntions.UploadFile;
-import com.perth.project.Login.User.UserFuntions.UserFuntions;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadImageFileSftp;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
@@ -26,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final UserFuntions userFuntions;
     private final UploadImageFileSftp UploadImageFile;
     private final UploadFile UploadFileService;
 

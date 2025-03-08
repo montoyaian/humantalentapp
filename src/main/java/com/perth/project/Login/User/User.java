@@ -37,9 +37,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     String password;
     @Column(nullable = false)
-    String profile;
+    Integer profile;
     @Column(nullable = false)
-    String area;
+    Integer area;
     @Column(nullable = false)
     String email;
     @Column(nullable = false)

@@ -14,6 +14,7 @@ import com.perth.project.Login.User.UserRepository;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
 import com.perth.project.Parameterization.Area.AreaRepository;
+import com.perth.project.Parameterization.Charge.ChargeRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ public class UserFuntions {
 
     private final UserRepository userRepository;
     private final AreaRepository areaRepository;
+    private final ChargeRepository chargeRepository;
 
     public void Validation(User user) {
         UserDetails emailFound = userRepository.findByEmail(user.getEmail()).orElse(null);
@@ -33,10 +35,14 @@ public class UserFuntions {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_REGISTER,
                     "El correo ingresado ya existe en nuestra base de datos");
-        }else if (areaRepository.findByName(user.getArea()).isEmpty()) {
+        }else if (areaRepository.findById(user.getArea()).isEmpty()) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_REGISTER,
                     "El area ingresada no existe en nuestra base de datos");
+        }else if(chargeRepository.findById(user.getProfile()).isEmpty()){
+            throw new BusinessException(
+                    BusinessErrorCodes.BAD_REGISTER,
+                    "El perfil ingresado no existe en nuestra base de datos");
         }
     }
 

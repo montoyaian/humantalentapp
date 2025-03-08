@@ -14,19 +14,18 @@ public class RegisterRequest {
 
     @NotNull(message = "La identificación es obligatoria")
     private String id;
+    
     @NotNull(message = "El nombre es obligatorio")
     private String firstName;
 
     @NotNull(message = "El apellido es obligatorio")
     private String lastName;
 
-
-
     @NotNull(message = "El perfil es obligatorio")
-    private String profile;
+    private Integer profile;
 
     @NotNull(message = "El área es obligatoria")
-    private String area;
+    private Integer area;
 
     @NotNull(message = "El correo electrónico es obligatorio")
     private String email;
