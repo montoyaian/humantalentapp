@@ -5,6 +5,9 @@ import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.SftpCo
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +17,17 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 
 @Service
+@RequiredArgsConstructor
 public class DownloadDocumentFileSftp {
+    private final CheckAut checkAut;
 
-
-    public ResponseEntity<byte[]> downloadFile(String fileName, String fileType) {
+    public ResponseEntity<byte[]> downloadFile(String fileName, String fileType,String token) {
         ChannelSftp sftpChannel = null;
         try {
             sftpChannel = SftpConnection.connectSftpChannel();
-            UploadDocumentFileSftp.changeDirectory(sftpChannel, "documents", fileType);            
 
+            UploadDocumentFileSftp.changeDirectory(sftpChannel, "documents", fileType);     
+            fileName = checkAut.CheckToken(token,fileName);       
             File tempFile = File.createTempFile("sftp-", "-" + fileName);
             try (InputStream inputStream = sftpChannel.get(fileName + ".pdf");
                  FileOutputStream outputStream = new FileOutputStream(tempFile)) {

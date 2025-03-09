@@ -45,9 +45,9 @@ public class UserController {
         return ResponseEntity.ok(userService.readUser(UserName));
     }
     
-    @GetMapping("user/document/download/{fileType}/{fileName}")
-    public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName, @PathVariable String fileType) {
-        return fileDownloadService.downloadFile(fileName, fileType);
+    @GetMapping("user/document/download/{fileType}/{fileName}/{token}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName, @PathVariable String fileType, @PathVariable String token) {
+        return fileDownloadService.downloadFile(fileName, fileType, token);
     }
 
     @GetMapping("user/image/download/{fileName}")
