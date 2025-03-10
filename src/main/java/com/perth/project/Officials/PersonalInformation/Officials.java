@@ -18,8 +18,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "funcionarios", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
-public class funcionarios {
+@Table(name = "officials", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
+public class Officials {
     @Id
     @Column(nullable = false)
     String UserId;
@@ -59,6 +59,7 @@ public class funcionarios {
     @Basic
     @Column(nullable = false)
     Date birthday;
+    
     @Basic
     @Column(nullable = false)
     String disability;

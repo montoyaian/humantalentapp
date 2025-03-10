@@ -9,7 +9,7 @@ import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Officials.FamilyInformation.FamilyInformationTools.FamilyInformationRequest;
 import com.perth.project.Officials.FamilyInformation.FamilyInformationTools.FamilyInformationResponse;
 import com.perth.project.Officials.FamilyInformation.FamilyInformationTools.FamilyInformationTools;
-import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.PersonalInformationFunctions;
+import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.OfficialsFunctions;
 import com.perth.project.Officials.FamilyInformation.FamilyInformationTools.EditFamilyInformation;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class FamilyInformationService {
     
     private final FamilyInformationRepository familyInformationRepository;
     private final FamilyInformationTools familyInformationTools;
-    private final PersonalInformationFunctions PersonalInformationFunctions;
+    private final OfficialsFunctions PersonalInformationFunctions;
 
     public AuthResponse createFamilyInformation(FamilyInformationRequest request) {
         FamilyInformation familyInformation = FamilyInformation.builder()

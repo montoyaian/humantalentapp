@@ -16,13 +16,13 @@ import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
 import com.perth.project.Parameterization.User.UserTools.EditUserRequest;
 import com.perth.project.Parameterization.User.UserTools.UserResponse;
-
+import com.perth.project.Officials.PersonalInformation.OfficialsService;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
+    private final OfficialsService officialsService;
     private final UserRepository userRepository;
     private final UploadImageFileSftp UploadImageFile;
     private final UploadFile UploadFileService;
@@ -62,6 +62,7 @@ public class UserService {
         }
         User user = optionalUser.get();
         userRepository.delete(user);
+        officialsService.deleteOfficials(user.getID());
         UploadImageFile.deletePhoto(userName);
         return AuthResponse.builder()
                 .response("Usuario eliminado correctamente")

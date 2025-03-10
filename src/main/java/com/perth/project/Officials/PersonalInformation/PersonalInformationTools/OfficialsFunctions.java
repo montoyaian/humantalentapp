@@ -1,28 +1,26 @@
 package com.perth.project.Officials.PersonalInformation.PersonalInformationTools;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.perth.project.Login.User.UserRepository;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
-import com.perth.project.Officials.PersonalInformation.funcionarios;
+import com.perth.project.Officials.PersonalInformation.Officials;
 import com.perth.project.Parameterization.Neighbourhood.Neighbourhood;
 import com.perth.project.Parameterization.Neighbourhood.NeighbourhoodRepository;
-import com.perth.project.Officials.PersonalInformation.PersonalInformationRepository;
+import com.perth.project.Officials.PersonalInformation.OfficialsRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class PersonalInformationFunctions {
-    private final PersonalInformationRepository personalInformationRepository;
+public class OfficialsFunctions {
+    private final OfficialsRepository personalInformationRepository;
     private final UserRepository userRepository;
     private final NeighbourhoodRepository neighbourhoodRepository;
-    public funcionarios checkInfo(String id){
-        funcionarios personalInformation = personalInformationRepository.findById(id)
+    public Officials checkInfo(String id){
+        Officials personalInformation = personalInformationRepository.findById(id)
         .orElse(null);
         if (personalInformation == null) {
             throw new BusinessException(

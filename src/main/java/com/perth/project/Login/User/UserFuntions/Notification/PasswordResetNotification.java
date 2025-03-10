@@ -3,7 +3,6 @@ package com.perth.project.Login.User.UserFuntions.Notification;
 import javax.mail.*;
 import javax.mail.internet.*;
 import com.perth.project.Login.Email.EmailFuntions;
-import com.perth.project.Login.User.UserFuntions.Notification.TemplateUtils;
 
 public class PasswordResetNotification {
 

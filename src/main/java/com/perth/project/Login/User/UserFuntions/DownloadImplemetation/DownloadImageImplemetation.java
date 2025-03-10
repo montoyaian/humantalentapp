@@ -1,6 +1,5 @@
 package com.perth.project.Login.User.UserFuntions.DownloadImplemetation;
 
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadImageFileSftp;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
 

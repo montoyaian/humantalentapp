@@ -9,7 +9,7 @@ import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Officials.OtherInformation.OtherInformationTools.OtherInformationRequest;
 import com.perth.project.Officials.OtherInformation.OtherInformationTools.OtherInformationResponse;
 import com.perth.project.Officials.OtherInformation.OtherInformationTools.OtherInformationTools;
-import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.PersonalInformationFunctions;
+import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.OfficialsFunctions;
 import com.perth.project.Officials.OtherInformation.OtherInformationTools.EditOtherInformation;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class OtherInformationService {
     
     private final OtherInformationRepository otherInformationRepository;
     private final OtherInformationTools otherInformationTools;
-    private final PersonalInformationFunctions PersonalInformationFunctions;
+    private final OfficialsFunctions PersonalInformationFunctions;
     public AuthResponse createOtherInformation(OtherInformationRequest request) {
 
         OtherInformation otherInformation = OtherInformation.builder()

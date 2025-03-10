@@ -4,12 +4,10 @@ import javax.mail.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.perth.project.Login.Auth.AuthResponse;
-import com.perth.project.Login.Email.EmailFuntions;
 import com.perth.project.Login.User.User;
 import com.perth.project.Login.User.UserRepository;
 import com.perth.project.Login.User.UserFuntions.Notification.PasswordResetNotification;

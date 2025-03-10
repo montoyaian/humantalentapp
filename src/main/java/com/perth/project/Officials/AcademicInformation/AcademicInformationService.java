@@ -10,7 +10,7 @@ import com.perth.project.Officials.AcademicInformation.AcademicInformationTools.
 import com.perth.project.Officials.AcademicInformation.AcademicInformationTools.AcademicInformationResponse;
 import com.perth.project.Officials.AcademicInformation.AcademicInformationTools.AcademicInformationTools;
 import com.perth.project.Officials.AcademicInformation.AcademicInformationTools.EditAcademicInformation;
-import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.PersonalInformationFunctions;
+import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.OfficialsFunctions;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +20,7 @@ public class AcademicInformationService {
     
     private final AcademicInformationRepository academicInformationRepository;
     private final AcademicInformationTools academicInformationTools;
-    private final PersonalInformationFunctions PersonalInformationFunctions;
+    private final OfficialsFunctions PersonalInformationFunctions;
     public AuthResponse createAcademicInformation(AcademicInformationRequest request) {
         AcademicInformation academicInformation = AcademicInformation.builder()
                 .UserId(request.getId()) 

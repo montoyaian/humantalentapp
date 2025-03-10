@@ -10,7 +10,7 @@ import com.perth.project.Officials.LaboralInformation.LaboralInformationTools.Ed
 import com.perth.project.Officials.LaboralInformation.LaboralInformationTools.LaboralInformationFunctions;
 import com.perth.project.Officials.LaboralInformation.LaboralInformationTools.LaboralInformationRequest;
 import com.perth.project.Officials.LaboralInformation.LaboralInformationTools.LaboralInformationResponse;
-import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.PersonalInformationFunctions;
+import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.OfficialsFunctions;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class LaboralInformationService {
     private final LaboralInformationFunctions laboralInformationFunctions;
     private final LaboralInformationRepository laboralInformationRepository;
-    private final PersonalInformationFunctions PersonalInformationFunctions;
+    private final OfficialsFunctions PersonalInformationFunctions;
 
     public AuthResponse createLaboralInformation(LaboralInformationRequest request) {
         LaboralInformation laboralInformation = LaboralInformation.builder()
