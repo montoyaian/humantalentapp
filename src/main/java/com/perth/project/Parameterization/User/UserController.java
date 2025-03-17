@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -15,9 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
+import com.perth.project.Login.Auth.Authservice;
+import com.perth.project.Login.Auth.RegisterRequest;
 import com.perth.project.Login.User.UserFuntions.DownloadImplemetation.DownloadDocumentFileSftp;
 import com.perth.project.Login.User.UserFuntions.DownloadImplemetation.DownloadImageFileSftp;
 import com.perth.project.Parameterization.User.UserTools.EditUserRequest;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -27,6 +32,7 @@ public class UserController {
     private final DownloadDocumentFileSftp fileDownloadService;
     private final DownloadImageFileSftp imageDownloadService;
     private final UserService userService;
+    private final Authservice authService;
     @PutMapping(value = "admin/user/edit/{UserName}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AuthResponse> editUser(@RequestPart(required = false) EditUserRequest request, 
                                               @PathVariable("UserName") String UserName,
@@ -52,5 +58,10 @@ public class UserController {
     @GetMapping("user/image/download/{fileName}")
     public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String fileName) {
         return imageDownloadService.downloadImageFile(fileName);
+    }
+    @PostMapping(value = "admin/user/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<AuthResponse> register(@RequestPart @Valid RegisterRequest request,@RequestPart("file") MultipartFile file) {
+
+        return ResponseEntity.ok(authService.register(request,file));
     }
 }

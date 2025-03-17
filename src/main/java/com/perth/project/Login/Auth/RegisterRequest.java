@@ -1,5 +1,7 @@
 package com.perth.project.Login.Auth;
 
+import javax.management.relation.Role;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +28,9 @@ public class RegisterRequest {
 
     @NotNull(message = "El área es obligatoria")
     private Integer area;
+
+    @NotNull(message = "El rol es obligatorio")
+    private Integer role;
 
     @NotNull(message = "El correo electrónico es obligatorio")
     private String email;

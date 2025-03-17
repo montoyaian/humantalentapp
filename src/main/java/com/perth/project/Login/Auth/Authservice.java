@@ -90,7 +90,7 @@ public class Authservice {
                 .email(request.getEmail())
                 .failedAttemps(0)
                 .blockedAccount(false)
-                .role(Role.USER)
+                .role(request.getProfile() == 1 ? Role.USER : Role.ADMIN)
                 .build();
 
         userRepository.findById(user.getID()).ifPresent(u -> {
