@@ -1,19 +1,16 @@
 package com.perth.project.Parameterization.User.UserTools;
 
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class EditUserRequest {
-    private Integer profile;
+@NoArgsConstructor
+
+public class IdentificationServiceResponse {
     private String firstName;
     private String lastName;
-    private Integer area;
-    private String email;
 
 }

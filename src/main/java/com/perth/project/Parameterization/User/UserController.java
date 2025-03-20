@@ -49,7 +49,11 @@ public class UserController {
     public ResponseEntity<Object> getUser(@PathVariable("UserName") String UserName) {
         return ResponseEntity.ok(userService.readUser(UserName));
     }
-    
+
+    @GetMapping(value = "admin/user/read/identification/{id}")
+    public ResponseEntity<Object> readIdentification(@PathVariable("id") String id) {
+        return ResponseEntity.ok(userService.checkIdentification(id));
+    }    
     @GetMapping("user/document/download/{fileType}/{fileName}/{token}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName, @PathVariable String fileType, @PathVariable String token) {
         return fileDownloadService.downloadFile(fileName, fileType, token);

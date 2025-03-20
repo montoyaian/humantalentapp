@@ -84,6 +84,8 @@ public class Authservice {
         User user = User.builder()
                 .ID(request.getId())
                 .username(userFuntions.CreateUserName(request.getFirstName(), request.getLastName()))
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
                 .password(passwordEncoder.encode(password))
                 .profile(request.getProfile())
                 .area(request.getArea())

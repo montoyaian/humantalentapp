@@ -30,21 +30,37 @@ public class User implements UserDetails {
 
     @Id
     String ID;
+
     @Basic
     @Column(nullable = false)
     String username;
+
+    @Basic
+    @Column(nullable = false)
+    String firstName;
+
+    @Basic
+    @Column(nullable = false)
+    String lastName; 
+
     @Column(nullable = false)
     String password;
+
     @Column(nullable = false)
     Integer profile;
+
     @Column(nullable = false)
     Integer area;
+    
     @Column(nullable = false)
     String email;
+
     @Column(nullable = false)
     Integer failedAttemps;
+
     @Column(nullable = false)
     Boolean blockedAccount;
+
     @Enumerated(EnumType.STRING)
     Role role;
 

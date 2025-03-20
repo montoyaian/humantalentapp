@@ -15,6 +15,7 @@ import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.Upload
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
 import com.perth.project.Parameterization.User.UserTools.EditUserRequest;
+import com.perth.project.Parameterization.User.UserTools.IdentificationServiceResponse;
 import com.perth.project.Parameterization.User.UserTools.UserResponse;
 import com.perth.project.Officials.PersonalInformation.OfficialsService;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,8 @@ public class UserService {
             user.setProfile(request.getProfile());
             user.setArea(request.getArea());
             user.setEmail(request.getEmail());
+            user.setFirstName(request.getFirstName());
+            user.setLastName(request.getLastName());
 
             userRepository.save(user);
         }        
@@ -88,5 +91,15 @@ public class UserService {
             
         }
     }
-    
+    public Object checkIdentification(String id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (!optionalUser.isPresent()) {
+            throw new BusinessException(
+                BusinessErrorCodes.BAD_REGISTER,
+                "Usuario no encontrado");
+        }
+        User user = optionalUser.get();
+        return new IdentificationServiceResponse(user.getFirstName(), user.getLastName());
+    }
 }
+

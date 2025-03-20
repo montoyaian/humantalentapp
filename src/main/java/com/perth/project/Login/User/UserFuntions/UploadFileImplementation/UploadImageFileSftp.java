@@ -42,6 +42,9 @@ public class UploadImageFileSftp {
             sftpChannel = SftpConnection.connectSftpChannel();
             UploadDocumentFileSftp.changeDirectory(sftpChannel, "images", null);
             sftpChannel.rm(userName + ".jpg");
+
+
+            
         } catch (Exception e) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_REGISTER,
