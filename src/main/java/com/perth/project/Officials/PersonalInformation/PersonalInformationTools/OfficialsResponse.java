@@ -20,7 +20,7 @@ public class OfficialsResponse {
     private Integer neighbourhoodID;
     private String address;
     private Date birthday;
-    private String disability;
+    private Boolean disability;
     private String languages;
     private String EPS;
     private String AFP;

@@ -62,7 +62,7 @@ public class Officials {
     
     @Basic
     @Column(nullable = false)
-    String disability;
+    Boolean disability;
 
     @Basic
     @Column(nullable = false)

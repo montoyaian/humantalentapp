@@ -16,16 +16,16 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class OfficialsFunctions {
-    private final OfficialsRepository personalInformationRepository;
+    private final OfficialsRepository officialsRepository;
     private final UserRepository userRepository;
     private final NeighbourhoodRepository neighbourhoodRepository;
     public Officials checkInfo(String id){
-        Officials personalInformation = personalInformationRepository.findById(id)
+        Officials personalInformation = officialsRepository.findById(id)
         .orElse(null);
         if (personalInformation == null) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_CREDENTIALS,
-                    "La información personal no está registrada");
+                    "La informacion de funcionarios no está registrada");
         }
         return personalInformation;
     }  

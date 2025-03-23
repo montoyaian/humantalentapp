@@ -64,7 +64,7 @@ public class UserService {
                 "Usuario no encontrado");
         }
         User user = optionalUser.get();
-        userRepository.delete(user);
+        userRepository.delete(user);    
         officialsService.deleteOfficials(user.getID());
         UploadImageFile.deletePhoto(userName);
         return AuthResponse.builder()
@@ -76,7 +76,7 @@ public class UserService {
         if ("all".equalsIgnoreCase(id)) {
             List<User> users = userRepository.findAll();
             List<UserResponse> userResponses = users.stream()
-                    .map(user -> new UserResponse(user.getID(),user.getUsername(),user.getProfile(),user.getArea() ,user.getEmail(),user.getBlockedAccount()))
+                    .map(user -> new UserResponse(user.getID(),user.getUsername(),user.getFirstName(),user.getLastName(),user.getProfile(),user.getArea() ,user.getEmail(),user.getRole(),user.getBlockedAccount()))
                     .collect(Collectors.toList());
             return userResponses;
         } else {
@@ -87,7 +87,7 @@ public class UserService {
                     "Usuario no encontrado"); 
             }
             User user = optionalUser.get();
-            return new UserResponse(user.getID(), user.getUsername(),user.getProfile(),user.getArea() ,user.getEmail(), user.getBlockedAccount());
+            return new UserResponse(user.getID(), user.getUsername(),user.getFirstName(),user.getLastName(),user.getProfile(),user.getArea() ,user.getEmail(), user.getRole(),user.getBlockedAccount());
             
         }
     }

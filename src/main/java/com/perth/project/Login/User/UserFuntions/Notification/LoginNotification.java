@@ -11,7 +11,7 @@ public class LoginNotification  {
     public static void sendNotification(String userEmail, String userName, String Password,Session emailSession) throws MessagingException {
         String filePath = EmailFuntions.pathTemplate("EmailWelcome.html");
         String content = EmailFuntions.readTemplate(filePath);
-        String templateReplace = TemplateUtils.replaceValues(userName, "", content);
+        String templateReplace = TemplateUtils.replaceValues(userName, Password, content);
         try {
             Message message = new MimeMessage(emailSession);
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(userEmail));

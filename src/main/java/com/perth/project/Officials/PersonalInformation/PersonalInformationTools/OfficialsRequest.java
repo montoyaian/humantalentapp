@@ -45,7 +45,7 @@ public class OfficialsRequest {
     Date birthday;
 
     @NotNull(message = "la discapacidad es obligatoria")
-    String disability;
+    Boolean disability;
 
     @NotNull(message = "los idiomas son obligatorios")
     String languages;
