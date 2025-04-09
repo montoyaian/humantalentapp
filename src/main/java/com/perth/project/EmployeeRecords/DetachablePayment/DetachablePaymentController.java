@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
+import com.perth.project.Login.User.UserFuntions.DownloadImplemetation.DownloadDocumentFileSftp;
+import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentReadRequest;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentRequest;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.EditDetachablePayment;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api")
@@ -49,4 +51,10 @@ public class DetachablePaymentController {
     public ResponseEntity<Object> readDetachablePayment(@PathVariable("id") String id) {
         return ResponseEntity.ok(detachablePaymentService.readDetachablePayment(id));
     }
+
+    @GetMapping("user/document/detachablepayment/download/{token}")
+    public ResponseEntity<byte[]> downloadFile(@RequestBody @Valid DetachablePaymentReadRequest request, @PathVariable String token) {
+        return detachablePaymentService.downloadDetachablePayment(request, token);
+    }
+
 }

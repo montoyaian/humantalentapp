@@ -28,18 +28,10 @@ public class DetachablePaymentTools {
         return detachablePayment;
     }
 
-    public String checkIdentification(String id) {
-        User user = userRepository.findById(id)
+    public void checkIdentification(String id) {
+        userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(
                         BusinessErrorCodes.BAD_CREDENTIALS,
                         "No existe usuario con esa identificación"));
-
-        if (detachablePaymentRepository.findById(id).isPresent()) {
-            throw new BusinessException(
-                    BusinessErrorCodes.BAD_CREDENTIALS,
-                    "La información de pago desprendible ya existe");
-        }
-
-        return user.getUsername();
     }
 }

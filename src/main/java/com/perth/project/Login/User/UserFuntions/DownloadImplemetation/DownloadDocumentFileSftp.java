@@ -27,9 +27,11 @@ public class DownloadDocumentFileSftp {
             sftpChannel = SftpConnection.connectSftpChannel();
 
             UploadDocumentFileSftp.changeDirectory(sftpChannel, "documents", fileType);     
-            fileName = checkAut.CheckToken(token,fileName);       
+            checkAut.CheckToken(token,fileName);       
             File tempFile = File.createTempFile("sftp-", "-" + fileName);
-            try (InputStream inputStream = sftpChannel.get(fileName + ".pdf");
+            System.out.println("Directorio actual: " + sftpChannel.pwd());
+            System.out.println("Descargando archivo: " + fileName );
+            try (InputStream inputStream = sftpChannel.get(fileName);
                  FileOutputStream outputStream = new FileOutputStream(tempFile)) {
                 byte[] buffer = new byte[1024];
                 int bytesRead;

@@ -16,7 +16,7 @@ public class CheckAut {
     private final JwtService jwtService;
     private final UserRepository userRepository;
 
-    public String CheckToken(String token,String name) {
+    public void CheckToken(String token,String name) {
         if (token == null) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_REGISTER,
@@ -29,18 +29,17 @@ public class CheckAut {
             .map(grantedAuthority -> grantedAuthority.getAuthority())
             .findFirst()
             .orElse(null);
-        System.out.println(name + username);
-        if(name.equals(username) ){
-            return name;
-        }else{
-            if (authority.equals("ADMIN")) {
-                return name;
-            } else {
+ 
+        if (!authority.equals("ADMIN")) {
+   
+            String[] parts = name.split("_");
+            String userId = parts[0];  
+            if (!userId.equals(username)) {
                 throw new BusinessException(
                         BusinessErrorCodes.BAD_REGISTER,
                         "No tienes permisos para descargar este archivo"
                 );
-            }
+             }
         }
     }
 }

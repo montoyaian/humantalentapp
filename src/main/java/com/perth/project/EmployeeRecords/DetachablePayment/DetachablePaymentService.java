@@ -3,12 +3,17 @@ package com.perth.project.EmployeeRecords.DetachablePayment;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
+import com.perth.project.Login.User.UserFuntions.DownloadImplemetation.DownloadDocumentFileSftp;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
+import com.perth.project.Login.exception.BusinessErrorCodes;
+import com.perth.project.Login.exception.BusinessException;
+import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentReadRequest;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentRequest;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentResponse;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentTools;
@@ -23,17 +28,18 @@ public class DetachablePaymentService {
     private final DetachablePaymentRepository detachablePaymentRepository;
     private final DetachablePaymentTools detachablePaymentTools;
     private final UploadFileService uploadFileService; 
+    private final DownloadDocumentFileSftp DownloadDocumentFileSftp;
     private final UploadDocumentFileSftp uploadDocumentFile;
     public AuthResponse createDetachablePayment(DetachablePaymentRequest request, MultipartFile file) {
-        String UserName = detachablePaymentTools.checkIdentification(request.getUser_id());
+        detachablePaymentTools.checkIdentification(request.getUser_id());
         DetachablePayment detachablePayment = DetachablePayment.builder()
                 .user_id(request.getUser_id())
                 .Month(request.getMonth())
                 .Year(request.getYear())
-                .detachable(UserName)
+                .detachable(request.getUser_id()+"_"+ request.getYear()+"_"+request.getMonth())
                 .build();
         
-        uploadFileService.handleFileUpload(file, UserName, "document", "detachablePayment");
+        uploadFileService.handleFileUpload(file, request.getUser_id() +"_"+ request.getYear()+"_"+request.getMonth(), "document", "detachablePayment");
         detachablePaymentRepository.save(detachablePayment);
         return AuthResponse.builder()
                 .response("Información de pago desprendible creada correctamente")
@@ -76,12 +82,25 @@ public class DetachablePaymentService {
                     .collect(Collectors.toList());
             return detachablePaymentResponses;
         } else {
-            DetachablePayment detachablePayment = detachablePaymentTools.checkInfo(id);
-            return new DetachablePaymentResponse(
-                    detachablePayment.getUser_id(),
-                    detachablePayment.getMonth(),
-                    detachablePayment.getYear(),
-                    detachablePayment.getDetachable());
+            List<DetachablePayment> detachablePayments = detachablePaymentRepository.findPaymentsByUserId(id);
+            if (detachablePayments.isEmpty()) {
+                throw new BusinessException(
+                        BusinessErrorCodes.BAD_CREDENTIALS,
+                        "No se encontraron pagos desprendibles para el usuario con ID: " + id);
+            }
+            return detachablePayments.stream()
+                    .map(payment -> new DetachablePaymentResponse(
+                            payment.getUser_id(),
+                            payment.getMonth(),
+                            payment.getYear(),
+                            payment.getDetachable()))
+                    .collect(Collectors.toList());
         }
     }
+    public ResponseEntity<byte[]> downloadDetachablePayment(DetachablePaymentReadRequest request, String token) {
+        
+        String fileName = request.getUser_id() + "_" + request.getYear() + "_" + request.getMonth() + ".pdf";
+        return DownloadDocumentFileSftp.downloadFile(fileName,request.getFileType() ,token);
+    }
+
 }

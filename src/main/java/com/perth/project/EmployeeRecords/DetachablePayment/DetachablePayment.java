@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "detachable_payment", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id" }) })
 public class DetachablePayment {
-    @Id
+    @Basic
     @Column(nullable = false)
     String user_id;
 
@@ -30,7 +30,7 @@ public class DetachablePayment {
     @Column(nullable = false)
     int Year;
 
-    @Basic
+    @Id
     @Column(nullable = false)
     String detachable;
 }
