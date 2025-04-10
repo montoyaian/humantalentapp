@@ -13,7 +13,6 @@ import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.Upload
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
-import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentReadRequest;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentRequest;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentResponse;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentTools;
@@ -97,9 +96,9 @@ public class DetachablePaymentService {
                     .collect(Collectors.toList());
         }
     }
-    public ResponseEntity<byte[]> downloadDetachablePayment(DetachablePaymentReadRequest request, String token) {
+    public ResponseEntity<byte[]> downloadDetachablePayment(String fileType,String fileName ,String token) {
 
-        return DownloadDocumentFileSftp.downloadFile(request.getFileName()+".pdf",request.getFileType() ,token);
+        return DownloadDocumentFileSftp.downloadFile(fileName + ".pdf",fileType ,token);
     }
 
 }

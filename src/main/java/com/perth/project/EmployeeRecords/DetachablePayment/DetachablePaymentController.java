@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Login.User.UserFuntions.DownloadImplemetation.DownloadDocumentFileSftp;
-import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentReadRequest;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentRequest;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.EditDetachablePayment;
 import jakarta.validation.Valid;
@@ -52,9 +51,9 @@ public class DetachablePaymentController {
         return ResponseEntity.ok(detachablePaymentService.readDetachablePayment(id));
     }
 
-    @GetMapping("user/document/detachablepayment/download/{token}")
-    public ResponseEntity<byte[]> downloadFile(@RequestBody @Valid DetachablePaymentReadRequest request, @PathVariable String token) {
-        return detachablePaymentService.downloadDetachablePayment(request, token);
+    @GetMapping("user/document/detachablepayment/download/{fileName}/{token}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName, @PathVariable String token) {
+        return detachablePaymentService.downloadDetachablePayment("detachablePayment",fileName ,token);
     }
 
 }
