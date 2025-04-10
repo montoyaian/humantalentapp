@@ -11,15 +11,10 @@ import lombok.NoArgsConstructor;
     @AllArgsConstructor
     @NoArgsConstructor
     public class DetachablePaymentReadRequest {
-        @NotNull(message = "El ID es obligatorio")
-        String user_id;
+        @NotNull(message = "El nombre es obligatorio")
+        String fileName;
     
         @NotNull(message = "El tipo de archivo es obligatorio")
         String fileType;
     
-        @NotNull(message = "El año es obligatorio")
-        int year;
-
-        @NotNull(message = "El mes es obligatorio")
-        int month;
     }

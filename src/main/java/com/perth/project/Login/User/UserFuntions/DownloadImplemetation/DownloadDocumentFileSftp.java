@@ -29,8 +29,6 @@ public class DownloadDocumentFileSftp {
             UploadDocumentFileSftp.changeDirectory(sftpChannel, "documents", fileType);     
             checkAut.CheckToken(token,fileName);       
             File tempFile = File.createTempFile("sftp-", "-" + fileName);
-            System.out.println("Directorio actual: " + sftpChannel.pwd());
-            System.out.println("Descargando archivo: " + fileName );
             try (InputStream inputStream = sftpChannel.get(fileName);
                  FileOutputStream outputStream = new FileOutputStream(tempFile)) {
                 byte[] buffer = new byte[1024];

@@ -98,9 +98,8 @@ public class DetachablePaymentService {
         }
     }
     public ResponseEntity<byte[]> downloadDetachablePayment(DetachablePaymentReadRequest request, String token) {
-        
-        String fileName = request.getUser_id() + "_" + request.getYear() + "_" + request.getMonth() + ".pdf";
-        return DownloadDocumentFileSftp.downloadFile(fileName,request.getFileType() ,token);
+
+        return DownloadDocumentFileSftp.downloadFile(request.getFileName()+".pdf",request.getFileType() ,token);
     }
 
 }
