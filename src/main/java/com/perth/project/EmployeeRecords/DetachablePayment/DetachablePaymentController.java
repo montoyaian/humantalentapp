@@ -55,5 +55,4 @@ public class DetachablePaymentController {
     public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName, @PathVariable String token) {
         return detachablePaymentService.downloadDetachablePayment("detachablePayment",fileName ,token);
     }
-
 }
