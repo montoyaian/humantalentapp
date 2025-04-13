@@ -46,13 +46,14 @@ public class DetachablePaymentService {
     }
 
     public AuthResponse editDetachablePayment(String id, EditDetachablePayment request, MultipartFile file) {
-        DetachablePayment detachablePayment = detachablePaymentTools.checkInfo(id);
+        String fileName = id + "_"+ request.getYear()+"_"+request.getMonth();
+        DetachablePayment detachablePayment = detachablePaymentTools.checkInfo(fileName);
         if(request!= null){
             detachablePayment.setMonth(request.getMonth());
             detachablePayment.setYear(request.getYear());    
         }
         if (file != null) {
-            uploadFileService.handleFileUpload(file, detachablePayment.getDetachable(), "document", "detachablePayment");
+            uploadFileService.handleFileUpload(file, fileName, "document", "detachablePayment");
         }
         detachablePaymentRepository.save(detachablePayment);
         return AuthResponse.builder()
