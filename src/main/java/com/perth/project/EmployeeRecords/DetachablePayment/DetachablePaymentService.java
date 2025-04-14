@@ -47,10 +47,12 @@ public class DetachablePaymentService {
 
     public AuthResponse editDetachablePayment(String fileName, EditDetachablePayment request, MultipartFile file) {
         DetachablePayment detachablePayment = detachablePaymentTools.checkInfo(fileName);
-        fileName.split(fileName);
-        String id = fileName.split("_")[0];  
-        String newFileName = id + "_"+ request.getYear()+"_"+request.getMonth();
+        String RfileName = fileName;
         if(request!= null){
+            fileName.split(fileName);
+            String id = fileName.split("_")[0];  
+            String newFileName = id + "_"+ request.getYear()+"_"+request.getMonth();
+            RfileName = newFileName;
             detachablePaymentRepository.delete(detachablePayment);
             
             DetachablePayment newDetachablePayment = DetachablePayment.builder()
@@ -63,7 +65,7 @@ public class DetachablePaymentService {
         }
         if (file != null) {
             uploadDocumentFile.deleteDocument(fileName, "detachablePayment");
-            uploadFileService.handleFileUpload(file, newFileName, "document", "detachablePayment");
+            uploadFileService.handleFileUpload(file, RfileName, "document", "detachablePayment");
         }
         return AuthResponse.builder()
                 .response("Información de pago desprendible editada correctamente")
