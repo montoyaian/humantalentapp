@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DetachablePaymentResponse {
-    private String ID;
-    private String Month;
-    private int Year;
+    private String id;
+    private String month;
+    private int year;
     private String detachable;
 }

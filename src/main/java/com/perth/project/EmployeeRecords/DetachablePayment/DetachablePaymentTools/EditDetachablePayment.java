@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EditDetachablePayment {
     @NotNull(message = "El mes es obligatorio")
-    String Month;
+    String month;
 
     @NotNull(message = "El año es obligatorio")
-    int Year;
+    int year;
 }

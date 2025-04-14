@@ -72,7 +72,6 @@ public class UploadDocumentFileSftp {
             sftpChannel = SftpConnection.connectSftpChannel();
             changeDirectory(sftpChannel,"documents" ,fileInfo);
             sftpChannel.rm(userName + ".pdf");
-            System.out.println("Archivo eliminado correctamente.");
         } catch (Exception e) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_REGISTER,
