@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "detachable_payment", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id" }) })
+@Table(name = "detachable_payment", uniqueConstraints = { @UniqueConstraint(columnNames = { "detachable" }) })
 public class DetachablePayment {
     @Basic
     @Column(nullable = false)
