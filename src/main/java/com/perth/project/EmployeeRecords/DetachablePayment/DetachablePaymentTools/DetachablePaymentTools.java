@@ -2,7 +2,6 @@ package com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentToo
 
 import org.springframework.stereotype.Service;
 
-import com.perth.project.Login.User.User;
 import com.perth.project.Login.User.UserRepository;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;

@@ -80,4 +80,21 @@ public class UploadDocumentFileSftp {
             SftpConnection.disconnectSftpChannel(sftpChannel);
         }
     }
+
+    public void renameDocument(String currentFileName, String newFileName, String fileInfo) {
+        ChannelSftp sftpChannel = null;
+        try {
+            sftpChannel = SftpConnection.connectSftpChannel();
+    
+            changeDirectory(sftpChannel, "documents", fileInfo);
+    
+            sftpChannel.rename(currentFileName + ".pdf", newFileName + ".pdf");
+        } catch (Exception e) {
+            throw new BusinessException(
+                    BusinessErrorCodes.BAD_REGISTER,
+                    "Error al renombrar el archivo: " + e.getMessage());
+        } finally {
+            SftpConnection.disconnectSftpChannel(sftpChannel);
+        }
+    }
 }

@@ -61,9 +61,13 @@ public class DetachablePaymentService {
                 .Year(request.getYear())
                 .detachable(newFileName)
                 .build();
+            if (file ==null){
+                uploadDocumentFile.renameDocument(fileName, newFileName, "detachablePayment");
+            }
+            
             detachablePaymentRepository.save(newDetachablePayment);
         }
-        if (file != null) {
+        if (file !=null){ 
             uploadDocumentFile.deleteDocument(fileName, "detachablePayment");
             uploadFileService.handleFileUpload(file, RfileName, "document", "detachablePayment");
         }
