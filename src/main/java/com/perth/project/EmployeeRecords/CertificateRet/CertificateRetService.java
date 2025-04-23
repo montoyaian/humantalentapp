@@ -25,29 +25,49 @@ public class CertificateRetService {
     private final UploadFileService uploadFileService; 
     private final UploadDocumentFileSftp uploadDocumentFile;
     public AuthResponse createCertificateRet(CertificateRetRequest request, MultipartFile file) {
-        String UserName = certificateRetTools.checkIdentification(request.getUser_id());
+        certificateRetTools.checkIdentification(request.getUser_id());
         CertificateRet certificateRet = CertificateRet.builder()
                 .user_id(request.getUser_id())
                 .Year(request.getYear())
-                .detachable(UserName)
+                .detachable(request.getUser_id()+"_"+request.getYear())
                 .build();
         
-        uploadFileService.handleFileUpload(file, UserName, "document", "certificateRet");
+        uploadFileService.handleFileUpload(file, certificateRet.getDetachable(), "document", "certificateRet");
         certificateRetRepository.save(certificateRet);
         return AuthResponse.builder()
                 .response("Información de certificado creada correctamente")
                 .build();
     }
 
-    public AuthResponse editCertificateRet(String id, EditCertificateRet request, MultipartFile file) {
-        CertificateRet certificateRet = certificateRetTools.checkInfo(id);
-        if(request != null){
-            certificateRet.setYear(request.getYear());
-        }        
-        if (file != null) {
-            uploadFileService.handleFileUpload(file, certificateRet.getDetachable(), "document", "certificateRet");
+    public AuthResponse editCertificateRet(String fileName, EditCertificateRet request, MultipartFile file) {
+        CertificateRet certificateRet = certificateRetTools.checkInfo(fileName);
+        String RfileName = fileName;
+    
+        if (request != null) {
+            String NewFileName = certificateRet.getUser_id() + "_" + request.getYear();
+            String id = fileName.split("_")[0];
+            RfileName = NewFileName;
+    
+            certificateRetRepository.delete(certificateRet);
+    
+            CertificateRet NewCertificateRet = CertificateRet.builder()
+                    .user_id(id)
+                    .Year(request.getYear())
+                    .detachable(NewFileName)
+                    .build();
+    
+            if (file == null) {
+                uploadDocumentFile.renameDocument(fileName, NewFileName, "certificateRet");
+            }
+    
+            certificateRetRepository.save(NewCertificateRet);
         }
-        certificateRetRepository.save(certificateRet);
+    
+        if (file != null) {
+            uploadDocumentFile.deleteDocument(fileName, "certificateRet");
+            uploadFileService.handleFileUpload(file, RfileName, "document", "certificateRet");
+        }
+    
         return AuthResponse.builder()
                 .response("Información de certificado editada correctamente")
                 .build();
@@ -80,4 +100,6 @@ public class CertificateRetService {
                     certificateRet.getDetachable());
         }
     }
+
+    
 }

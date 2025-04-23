@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EditCertificateRet {
+
     @NotNull(message = "El año es obligatorio")
-    int Year;
+    int year;
 }

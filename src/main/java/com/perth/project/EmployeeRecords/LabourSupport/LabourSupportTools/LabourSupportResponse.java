@@ -15,6 +15,6 @@ public class LabourSupportResponse {
     private String LastName;
     private String TypeOfRelationship;
     private Date DateOfEntry;
-    private int ChargeID;
+    private String Charge;
     private Float Salary;
 }

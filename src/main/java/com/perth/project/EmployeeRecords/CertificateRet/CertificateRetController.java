@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
+import com.perth.project.Login.User.UserFuntions.DownloadImplemetation.DownloadDocumentFileSftp;
 import com.perth.project.EmployeeRecords.CertificateRet.CertificateRetTools.CertificateRetRequest;
 import com.perth.project.EmployeeRecords.CertificateRet.CertificateRetTools.EditCertificateRet;
 
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequiredArgsConstructor
 public class CertificateRetController {
     private final CertificateRetService certificateRetService;
+    private final DownloadDocumentFileSftp downloadDocumentFileSftp;
 
     @PostMapping(value = "admin/certificateret/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AuthResponse> createCertificateRet(@RequestPart @Valid CertificateRetRequest request,
@@ -48,5 +50,12 @@ public class CertificateRetController {
     @GetMapping(value ="admin/certificateret/read/{id}")
     public ResponseEntity<Object> readCertificateRet(@PathVariable("id") String id) {
         return ResponseEntity.ok(certificateRetService.readCertificateRet(id));
+    }
+
+    @GetMapping(value ="user/certificateret/download/{token}/{id}")
+    public ResponseEntity<byte[]> downloadDetachablePayment(@PathVariable("id") String id,
+                                                            @PathVariable("token") String token) {
+
+        return downloadDocumentFileSftp.downloadFile(id + ".pdf","certificateRet" ,token);
     }
 }

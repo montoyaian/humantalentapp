@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class CertificateRetResponse {
     private String ID;
     private int Year;
-    private String detachable;
+    private String Detachable;
 }

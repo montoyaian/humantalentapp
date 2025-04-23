@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "certificate_ret", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id" }) })
+@Table(name = "certificate_ret", uniqueConstraints = { @UniqueConstraint(columnNames = { "detachable" }) })
 public class CertificateRet {
-    @Id
+    @Basic
     @Column(nullable = false)
     String user_id;
 
@@ -26,7 +26,8 @@ public class CertificateRet {
     @Column(nullable = false)
     int Year;
 
-    @Basic
+    
+    @Id
     @Column(nullable = false)
     String detachable;
 }

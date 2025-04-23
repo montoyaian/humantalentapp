@@ -28,18 +28,16 @@ public class CertificateRetTools {
         return certificateRet;
     }
 
-    public String checkIdentification(String id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(
-                        BusinessErrorCodes.BAD_CREDENTIALS,
-                        "No existe usuario con esa identificación"));
+    public void checkIdentification(String id) {
+        userRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(
+                    BusinessErrorCodes.BAD_CREDENTIALS,
+                    "No existe usuario con esa identificación"));
 
         if (certificateRetRepository.findById(id).isPresent()) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_CREDENTIALS,
                     "La información del certificado ya existe");
         }
-
-        return user.getUsername();
     }
 }
