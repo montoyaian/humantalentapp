@@ -14,10 +14,11 @@ import com.perth.project.Login.User.UserFuntions.UploadFile;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadImageFileSftp;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
+import com.perth.project.Officials.OfficialsService;
 import com.perth.project.Parameterization.User.UserTools.EditUserRequest;
 import com.perth.project.Parameterization.User.UserTools.IdentificationServiceResponse;
 import com.perth.project.Parameterization.User.UserTools.UserResponse;
-import com.perth.project.Officials.PersonalInformation.OfficialsService;
+
 import lombok.RequiredArgsConstructor;
 
 @Service

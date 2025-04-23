@@ -1,4 +1,4 @@
-package com.perth.project.Officials.PersonalInformation.PersonalInformationTools;
+package com.perth.project.Officials.OfficialsTools;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import com.perth.project.Login.User.UserRepository;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
-import com.perth.project.Officials.PersonalInformation.Officials;
 import com.perth.project.Parameterization.Neighbourhood.Neighbourhood;
 import com.perth.project.Parameterization.Neighbourhood.NeighbourhoodRepository;
-import com.perth.project.Officials.PersonalInformation.OfficialsRepository;
+import com.perth.project.Officials.Officials;
+import com.perth.project.Officials.OfficialsRepository;
 
 import lombok.RequiredArgsConstructor;
 

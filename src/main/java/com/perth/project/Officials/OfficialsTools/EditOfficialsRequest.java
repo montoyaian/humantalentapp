@@ -1,4 +1,4 @@
-package com.perth.project.Officials.PersonalInformation.PersonalInformationTools;
+package com.perth.project.Officials.OfficialsTools;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

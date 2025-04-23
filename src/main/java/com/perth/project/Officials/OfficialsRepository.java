@@ -1,4 +1,4 @@
-package com.perth.project.Officials.PersonalInformation;
+package com.perth.project.Officials;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

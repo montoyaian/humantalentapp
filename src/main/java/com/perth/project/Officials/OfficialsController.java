@@ -1,12 +1,11 @@
-package com.perth.project.Officials.PersonalInformation;
+package com.perth.project.Officials;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.perth.project.Login.Auth.AuthResponse;
-import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.EditOfficialsRequest;
-import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.OfficialsRequest;
-
+import com.perth.project.Officials.OfficialsTools.EditOfficialsRequest;
+import com.perth.project.Officials.OfficialsTools.OfficialsRequest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

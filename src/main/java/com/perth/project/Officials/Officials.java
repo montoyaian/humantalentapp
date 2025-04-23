@@ -1,4 +1,4 @@
-package com.perth.project.Officials.PersonalInformation;
+package com.perth.project.Officials;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;

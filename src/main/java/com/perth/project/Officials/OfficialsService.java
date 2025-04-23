@@ -1,4 +1,4 @@
-package com.perth.project.Officials.PersonalInformation;
+package com.perth.project.Officials;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -6,10 +6,11 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.perth.project.Login.Auth.AuthResponse;
-import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.EditOfficialsRequest;
-import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.OfficialsFunctions;
-import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.OfficialsRequest;
-import com.perth.project.Officials.PersonalInformation.PersonalInformationTools.OfficialsResponse;
+import com.perth.project.Officials.OfficialsTools.EditOfficialsRequest;
+import com.perth.project.Officials.OfficialsTools.OfficialsFunctions;
+import com.perth.project.Officials.OfficialsTools.OfficialsRequest;
+import com.perth.project.Officials.OfficialsTools.OfficialsResponse;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
