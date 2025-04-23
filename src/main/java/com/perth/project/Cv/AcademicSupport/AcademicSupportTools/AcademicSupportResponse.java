@@ -1,4 +1,4 @@
-package com.perth.project.EmployeeRecords.AcademicSupport.AcademicSupportTools;
+package com.perth.project.Cv.AcademicSupport.AcademicSupportTools;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

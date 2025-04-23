@@ -52,10 +52,5 @@ public class CertificateRetController {
         return ResponseEntity.ok(certificateRetService.readCertificateRet(id));
     }
 
-    @GetMapping(value ="user/certificateret/download/{token}/{id}")
-    public ResponseEntity<byte[]> downloadDetachablePayment(@PathVariable("id") String id,
-                                                            @PathVariable("token") String token) {
 
-        return downloadDocumentFileSftp.downloadFile(id + ".pdf","certificateRet" ,token);
-    }
 }

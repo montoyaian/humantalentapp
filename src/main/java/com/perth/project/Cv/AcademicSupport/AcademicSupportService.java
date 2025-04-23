@@ -1,4 +1,4 @@
-package com.perth.project.EmployeeRecords.AcademicSupport;
+package com.perth.project.Cv.AcademicSupport;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -6,15 +6,15 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.perth.project.Cv.AcademicSupport.AcademicSupportTools.AcademicSupportRequest;
+import com.perth.project.Cv.AcademicSupport.AcademicSupportTools.AcademicSupportResponse;
+import com.perth.project.Cv.AcademicSupport.AcademicSupportTools.AcademicSupportTools;
+import com.perth.project.Cv.AcademicSupport.AcademicSupportTools.EditAcademicSupport;
 import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Login.User.User;
 import com.perth.project.Login.User.UserRepository;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
-import com.perth.project.EmployeeRecords.AcademicSupport.AcademicSupportTools.AcademicSupportRequest;
-import com.perth.project.EmployeeRecords.AcademicSupport.AcademicSupportTools.AcademicSupportResponse;
-import com.perth.project.EmployeeRecords.AcademicSupport.AcademicSupportTools.AcademicSupportTools;
-import com.perth.project.EmployeeRecords.AcademicSupport.AcademicSupportTools.EditAcademicSupport;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +27,7 @@ public class AcademicSupportService {
     private final UploadFileService uploadFileService; 
     private final UploadDocumentFileSftp uploadDocumentFile;
     private final UserRepository userRepository;
+
     public AuthResponse createAcademicSupport(AcademicSupportRequest request,MultipartFile file) {
         String UserName = academicSupportTools.checkIdentification(request.getUser_id());
         AcademicSupport academicSupport = AcademicSupport.builder()
@@ -36,7 +37,7 @@ public class AcademicSupportService {
                 .Institution(request.getInstitution())
                 .AcademicTraining(request.getAcademicTraining())
                 .Graduate(request.isGraduate())
-                .SupportDocument(UserName)
+                .SupportDocument(request.getUser_id())
                 .build();
         
         uploadFileService.handleFileUpload(file,UserName,"document","academicSupport");

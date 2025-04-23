@@ -1,4 +1,4 @@
-package com.perth.project.EmployeeRecords.AcademicSupport;
+package com.perth.project.Cv.AcademicSupport;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;

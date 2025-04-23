@@ -1,32 +1,31 @@
-package com.perth.project.EmployeeRecords.AcademicSupport.AcademicSupportTools;
-
+package com.perth.project.Cv.LaboralExperience.LaboralExperienceTools;
 
 import org.springframework.stereotype.Service;
 
+import com.perth.project.Cv.LaboralExperience.LaboralExperience;
+import com.perth.project.Cv.LaboralExperience.LaboralExperienceRepository;
 import com.perth.project.Login.User.User;
 import com.perth.project.Login.User.UserRepository;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
-import com.perth.project.EmployeeRecords.AcademicSupport.AcademicSupport;
-import com.perth.project.EmployeeRecords.AcademicSupport.AcademicSupportRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AcademicSupportTools {
-    private final AcademicSupportRepository academicSupportRepository;
+public class LaboralExperienceTools {
+    private final LaboralExperienceRepository laboralExperienceRepository;
     private final UserRepository userRepository;
 
-    public AcademicSupport checkInfo(String id) {
-        AcademicSupport academicSupport = academicSupportRepository.findById(id)
+    public LaboralExperience checkInfo(String id) {
+        LaboralExperience laboralExperience = laboralExperienceRepository.findById(id)
                 .orElse(null);
-        if (academicSupport == null) {
+        if (laboralExperience == null) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_CREDENTIALS,
-                    "La información de soporte académico no está registrada");
+                    "La información de experiencia laboral no está registrada");
         }
-        return academicSupport;
+        return laboralExperience;
     }
 
     public String checkIdentification(String id) {
@@ -35,10 +34,10 @@ public class AcademicSupportTools {
                         BusinessErrorCodes.BAD_CREDENTIALS,
                         "No existe usuario con esa identificación"));
 
-        if (academicSupportRepository.findById(id).isPresent()) {
+        if (laboralExperienceRepository.findById(id).isPresent()) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_CREDENTIALS,
-                    "La información de soporte académico ya existe");
+                    "La información de experiencia laboral ya existe");
         }
 
         return user.getUsername();

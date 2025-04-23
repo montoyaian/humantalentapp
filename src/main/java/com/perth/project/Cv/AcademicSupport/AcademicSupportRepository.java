@@ -1,4 +1,4 @@
-package com.perth.project.EmployeeRecords.AcademicSupport;
+package com.perth.project.Cv.AcademicSupport;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

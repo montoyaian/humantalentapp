@@ -1,4 +1,4 @@
-package com.perth.project.EmployeeRecords.AcademicSupport;
+package com.perth.project.Cv.AcademicSupport;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.http.MediaType;
@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.perth.project.Cv.AcademicSupport.AcademicSupportTools.AcademicSupportRequest;
+import com.perth.project.Cv.AcademicSupport.AcademicSupportTools.EditAcademicSupport;
 import com.perth.project.Login.Auth.AuthResponse;
-import com.perth.project.EmployeeRecords.AcademicSupport.AcademicSupportTools.AcademicSupportRequest;
-import com.perth.project.EmployeeRecords.AcademicSupport.AcademicSupportTools.EditAcademicSupport;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class AcademicSupportController {
     public ResponseEntity<AuthResponse> editAcademicSupport(@RequestPart(required = false)@Valid EditAcademicSupport request,
                                                      @PathVariable("id") String id,@RequestPart(required = false)  MultipartFile file) {
         return ResponseEntity.ok(academicSupportService.editAcademicSupport(id, request,file));
-    }
+    }       
 
     @DeleteMapping(value ="admin/academicsupport/delete/{id}")
     public ResponseEntity<AuthResponse> deleteAcademicSupport(@PathVariable("id") String id) {

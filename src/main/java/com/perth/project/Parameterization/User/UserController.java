@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,8 +56,9 @@ public class UserController {
         return ResponseEntity.ok(userService.checkIdentification(id));
     } 
 
-    @GetMapping("user/document/download/{fileType}/{fileName}/{token}")
-    public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName, @PathVariable String fileType, @PathVariable String token) {
+    @GetMapping("user/document/download/{fileType}/{fileName}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName, @PathVariable String fileType,@RequestHeader(value = "Authorization", required = true) String authHeader ) {
+        String token = authHeader.substring(7);
         return fileDownloadService.downloadFile(fileName+ ".pdf", fileType, token);
     }
 
@@ -71,8 +73,9 @@ public class UserController {
         return ResponseEntity.ok(authService.register(request,file));
     }
 
-    @GetMapping(value = "user/home/information/{token}")
-    public ResponseEntity<Object> homeInformation(@PathVariable("token") String token) {
+    @GetMapping(value = "user/home/information")
+    public ResponseEntity<Object> homeInformation(@RequestHeader(value = "Authorization", required = true) String authHeader) {
+        String token = authHeader.substring(7);
         return ResponseEntity.ok(userService.homeInformation(token));
     } 
 }

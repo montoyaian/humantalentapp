@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 
 @RestController
@@ -18,9 +19,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class LabourSupportController {
     private final LabourSupportService labourSupportService;
 
-    @GetMapping(value ="user/laboursupport/read/information/{token}/{id}")
+    @GetMapping(value ="user/laboursupport/read/information/{id}")
     public ResponseEntity<Object> readLabourSupport(@PathVariable("id") String id,
-                                                    @PathVariable("token") String token) {    
+                                                    @RequestHeader(value = "Authorization", required = true) String authHeader) {    
+        String token = authHeader.substring(7);
+
         return ResponseEntity.ok(labourSupportService.readLabourSupport(token, id));
     }
 }
