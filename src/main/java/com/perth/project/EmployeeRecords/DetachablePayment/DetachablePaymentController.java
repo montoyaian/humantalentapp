@@ -44,7 +44,7 @@ public class DetachablePaymentController {
         return ResponseEntity.ok(detachablePaymentService.deleteDetachablePayment(id));
     }
 
-    @GetMapping(value ="admin/detachablepayment/read/{id}")
+    @GetMapping(value ="user/detachablepayment/read/{id}")
     public ResponseEntity<Object> readDetachablePayment(@PathVariable("id") String id) {
         return ResponseEntity.ok(detachablePaymentService.readDetachablePayment(id));
     }
