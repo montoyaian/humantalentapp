@@ -49,8 +49,4 @@ public class DetachablePaymentController {
         return ResponseEntity.ok(detachablePaymentService.readDetachablePayment(id));
     }
 
-    @GetMapping("user/document/detachablepayment/download/{fileName}/{token}")
-    public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName, @PathVariable String token) {
-        return detachablePaymentService.downloadDetachablePayment("detachablePayment",fileName ,token);
-    }
 }

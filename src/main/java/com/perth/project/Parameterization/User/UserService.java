@@ -4,6 +4,8 @@ import java.util.stream.Collectors;
 
 import java.util.Optional;
 import java.util.List;
+
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,8 +16,14 @@ import com.perth.project.Login.User.UserFuntions.UploadFile;
 import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadImageFileSftp;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
+import com.perth.project.Login.jwt.JwtService;
+import com.perth.project.Officials.Officials;
+import com.perth.project.Officials.OfficialsRepository;
 import com.perth.project.Officials.OfficialsService;
+import com.perth.project.Parameterization.Charge.Charge;
+import com.perth.project.Parameterization.Charge.ChargeRepository;
 import com.perth.project.Parameterization.User.UserTools.EditUserRequest;
+import com.perth.project.Parameterization.User.UserTools.HomeInformationResponse;
 import com.perth.project.Parameterization.User.UserTools.IdentificationServiceResponse;
 import com.perth.project.Parameterization.User.UserTools.UserResponse;
 
@@ -28,6 +36,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final UploadImageFileSftp UploadImageFile;
     private final UploadFile UploadFileService;
+    private final JwtService jwtService;
+    private final OfficialsRepository officialsRepository;
+    private final ChargeRepository chargeRepository;
 
     public AuthResponse editUser(EditUserRequest request, String UserName, MultipartFile file) {
         Optional<User> optionalUser = userRepository.findByUsername(UserName);
@@ -56,7 +67,7 @@ public class UserService {
                 .build();
     }
 
-     public AuthResponse deleteUser(String userName) {
+    public AuthResponse deleteUser(String userName) {
        
         Optional<User> optionalUser = userRepository.findByUsername(userName);
         if (!optionalUser.isPresent()) {
@@ -72,7 +83,24 @@ public class UserService {
                 .response("Usuario eliminado correctamente")
                 .build();
     }
+    public HomeInformationResponse homeInformation(String token){
+        String username = jwtService.getUsernameFromToken(token);
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null) {
+            throw new BusinessException(
+                BusinessErrorCodes.BAD_REGISTER,
+                "Usuario no encontrado");
+        }
+        Officials officials = officialsRepository.findById(user.getID()).orElse(null);
+        Charge charge = chargeRepository.findById(officials.getChargeID()).orElse(null);
+        return new HomeInformationResponse(
+            username,
+            user.getID(),
+            charge.getName()
+        );
 
+
+    } 
     public Object readUser(String id) {
         if ("all".equalsIgnoreCase(id)) {
             List<User> users = userRepository.findAll();

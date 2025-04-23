@@ -53,19 +53,26 @@ public class UserController {
     @GetMapping(value = "admin/user/read/identification/{id}")
     public ResponseEntity<Object> readIdentification(@PathVariable("id") String id) {
         return ResponseEntity.ok(userService.checkIdentification(id));
-    }    
+    } 
+
     @GetMapping("user/document/download/{fileType}/{fileName}/{token}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName, @PathVariable String fileType, @PathVariable String token) {
-        return fileDownloadService.downloadFile(fileName, fileType, token);
+        return fileDownloadService.downloadFile(fileName+ ".pdf", fileType, token);
     }
 
     @GetMapping("user/image/download/{fileName}")
     public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String fileName) {
         return imageDownloadService.downloadImageFile(fileName);
     }
+
     @PostMapping(value = "admin/user/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AuthResponse> register(@RequestPart @Valid RegisterRequest request,@RequestPart("file") MultipartFile file) {
 
         return ResponseEntity.ok(authService.register(request,file));
     }
+
+    @GetMapping(value = "user/home/information/{token}")
+    public ResponseEntity<Object> homeInformation(@PathVariable("token") String token) {
+        return ResponseEntity.ok(userService.homeInformation(token));
+    } 
 }
