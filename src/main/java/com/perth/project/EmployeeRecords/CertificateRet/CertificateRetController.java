@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
-import com.perth.project.Login.User.UserFuntions.DownloadImplemetation.DownloadDocumentFileSftp;
+import com.perth.project.Parameterization.User.UserFuntions.DownloadImplemetation.DownloadDocumentFileSftp;
 import com.perth.project.EmployeeRecords.CertificateRet.CertificateRetTools.CertificateRetRequest;
 import com.perth.project.EmployeeRecords.CertificateRet.CertificateRetTools.EditCertificateRet;
 

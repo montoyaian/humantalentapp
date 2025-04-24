@@ -19,8 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Login.Auth.Authservice;
 import com.perth.project.Login.Auth.RegisterRequest;
-import com.perth.project.Login.User.UserFuntions.DownloadImplemetation.DownloadDocumentFileSftp;
-import com.perth.project.Login.User.UserFuntions.DownloadImplemetation.DownloadImageFileSftp;
+import com.perth.project.Parameterization.User.UserFuntions.DownloadImplemetation.DownloadDocumentFileSftp;
+import com.perth.project.Parameterization.User.UserFuntions.DownloadImplemetation.DownloadImageFileSftp;
 import com.perth.project.Parameterization.User.UserTools.EditUserRequest;
 
 import jakarta.validation.Valid;

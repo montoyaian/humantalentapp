@@ -1,4 +1,4 @@
-package com.perth.project.Login.User.UserFuntions.Notification;
+package com.perth.project.Parameterization.User.UserFuntions.Notification;
 
 public class TemplateUtils {
 

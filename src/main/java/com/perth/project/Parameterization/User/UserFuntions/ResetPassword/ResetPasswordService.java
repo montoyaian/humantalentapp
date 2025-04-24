@@ -1,4 +1,4 @@
-package com.perth.project.Login.User.UserFuntions.ResetPassword;
+package com.perth.project.Parameterization.User.UserFuntions.ResetPassword;
 
 import javax.mail.Session;
 
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Login.User.User;
 import com.perth.project.Login.User.UserRepository;
-import com.perth.project.Login.User.UserFuntions.Notification.PasswordResetNotification;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
 import com.perth.project.Login.jwt.JwtService;
+import com.perth.project.Parameterization.User.UserFuntions.Notification.PasswordResetNotification;
 
 import lombok.RequiredArgsConstructor;
 

@@ -10,8 +10,8 @@ import com.perth.project.Cv.LaboralExperience.LaboralExperienceTools.LaboralExpe
 import com.perth.project.Cv.LaboralExperience.LaboralExperienceTools.LaboralExperienceResponse;
 import com.perth.project.Cv.LaboralExperience.LaboralExperienceTools.EditLaboralExperience;
 import com.perth.project.Login.Auth.AuthResponse;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
+import com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
+import com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation.UploadFileService;
 
 import lombok.RequiredArgsConstructor;
 

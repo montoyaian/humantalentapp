@@ -13,8 +13,8 @@ import com.perth.project.Cv.AcademicSupport.AcademicSupportTools.EditAcademicSup
 import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Login.User.User;
 import com.perth.project.Login.User.UserRepository;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
+import com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
+import com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation.UploadFileService;
 
 import lombok.RequiredArgsConstructor;
 

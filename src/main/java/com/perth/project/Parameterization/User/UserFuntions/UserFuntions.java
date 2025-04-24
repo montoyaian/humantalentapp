@@ -1,4 +1,4 @@
-package com.perth.project.Login.User.UserFuntions;
+package com.perth.project.Parameterization.User.UserFuntions;
 
 import java.util.Random;
 

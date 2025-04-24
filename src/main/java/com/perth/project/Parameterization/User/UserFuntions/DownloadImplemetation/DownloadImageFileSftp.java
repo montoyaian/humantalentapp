@@ -1,11 +1,12 @@
-package com.perth.project.Login.User.UserFuntions.DownloadImplemetation;
+package com.perth.project.Parameterization.User.UserFuntions.DownloadImplemetation;
 
 import java.io.InputStream;
 import com.jcraft.jsch.ChannelSftp;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.SftpConnection;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
+import com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation.SftpConnection;
+import com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
+
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

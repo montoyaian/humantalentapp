@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.Auth.AuthResponse;
-import com.perth.project.Login.User.UserFuntions.DownloadImplemetation.DownloadDocumentFileSftp;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
-import com.perth.project.Login.User.UserFuntions.UploadFileImplementation.UploadFileService;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
+import com.perth.project.Parameterization.User.UserFuntions.DownloadImplemetation.DownloadDocumentFileSftp;
+import com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
+import com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation.UploadFileService;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentRequest;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentResponse;
 import com.perth.project.EmployeeRecords.DetachablePayment.DetachablePaymentTools.DetachablePaymentTools;

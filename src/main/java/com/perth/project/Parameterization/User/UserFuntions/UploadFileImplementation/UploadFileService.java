@@ -1,14 +1,13 @@
-package com.perth.project.Login.User.UserFuntions.UploadFileImplementation;
+package com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
+import com.perth.project.Parameterization.User.UserFuntions.UploadFile;
 
 import lombok.AllArgsConstructor;
-
-import com.perth.project.Login.User.UserFuntions.UploadFile;
 
 @Service
 @AllArgsConstructor

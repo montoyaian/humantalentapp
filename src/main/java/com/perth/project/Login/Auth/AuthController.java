@@ -3,8 +3,8 @@ package com.perth.project.Login.Auth;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.perth.project.Login.User.UserFuntions.ResetPassword.ResetPasswordRequest;
-import com.perth.project.Login.User.UserFuntions.ResetPassword.ResetPasswordService;
+import com.perth.project.Parameterization.User.UserFuntions.ResetPassword.ResetPasswordRequest;
+import com.perth.project.Parameterization.User.UserFuntions.ResetPassword.ResetPasswordService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

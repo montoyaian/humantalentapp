@@ -1,4 +1,4 @@
-package com.perth.project.Login.User.UserFuntions.ResetPassword;
+package com.perth.project.Parameterization.User.UserFuntions.ResetPassword;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
