@@ -59,7 +59,8 @@ public class UserController {
     @GetMapping("user/document/download/{fileType}/{fileName}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable String fileName, @PathVariable String fileType,@RequestHeader(value = "Authorization", required = true) String authHeader ) {
         String token = authHeader.substring(7);
-        return fileDownloadService.downloadFile(fileName+ ".pdf", fileType, token);
+
+        return fileDownloadService.downloadFile(fileName, fileType, token);
     }
 
     @GetMapping("user/image/download/{fileName}")

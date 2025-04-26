@@ -3,6 +3,7 @@ package com.perth.project.Parameterization.User.UserFuntions.DownloadImplemetati
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.perth.project.Login.User.User;
 import com.perth.project.Login.User.UserRepository;
 import com.perth.project.Login.exception.BusinessErrorCodes;
 import com.perth.project.Login.exception.BusinessException;
@@ -24,7 +25,7 @@ public class CheckAut {
             );
         }
         String username = jwtService.getUsernameFromToken(token);
-        UserDetails user = userRepository.findByUsername(username).orElse(null);
+        User user = userRepository.findByUsername(username).orElse(null);
         String authority = user.getAuthorities().stream()
             .map(grantedAuthority -> grantedAuthority.getAuthority())
             .findFirst()
@@ -34,7 +35,7 @@ public class CheckAut {
    
             String[] parts = name.split("_");
             String userId = parts[0];  
-            if (!userId.equals(username)) {
+            if (!userId.equals(user.getID())) {
                 throw new BusinessException(
                         BusinessErrorCodes.BAD_REGISTER,
                         "No tienes permisos para descargar este archivo"

@@ -29,7 +29,7 @@ public class AcademicSupportService {
     private final UserRepository userRepository;
 
     public AuthResponse createAcademicSupport(AcademicSupportRequest request,MultipartFile file) {
-        String UserName = academicSupportTools.checkIdentification(request.getUser_id());
+        academicSupportTools.checkIdentification(request.getUser_id());
         AcademicSupport academicSupport = AcademicSupport.builder()
                 .user_id(request.getUser_id())
                 .TypeOfTraining(request.getTypeOfTraining())
@@ -40,7 +40,7 @@ public class AcademicSupportService {
                 .SupportDocument(request.getUser_id())
                 .build();
         
-        uploadFileService.handleFileUpload(file,UserName,"document","academicSupport");
+        uploadFileService.handleFileUpload(file,request.getUser_id(),"document","academicSupport");
         academicSupportRepository.save(academicSupport);
         return AuthResponse.builder()
                 .response("Información de soporte académico creada correctamente")
