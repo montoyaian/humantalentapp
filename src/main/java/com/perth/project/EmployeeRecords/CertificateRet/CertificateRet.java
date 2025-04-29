@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class CertificateRet {
     @Basic
     @Column(nullable = false)
-    String user_id;
+    String userId;
 
     @Basic
     @Column(nullable = false)

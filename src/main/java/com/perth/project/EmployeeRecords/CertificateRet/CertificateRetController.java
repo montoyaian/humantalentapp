@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequiredArgsConstructor
 public class CertificateRetController {
     private final CertificateRetService certificateRetService;
-    private final DownloadDocumentFileSftp downloadDocumentFileSftp;
 
     @PostMapping(value = "admin/certificateret/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<AuthResponse> createCertificateRet(@RequestPart @Valid CertificateRetRequest request,
@@ -47,7 +46,7 @@ public class CertificateRetController {
         return ResponseEntity.ok(certificateRetService.deleteCertificateRet(id));
     }
 
-    @GetMapping(value ="admin/certificateret/read/{id}")
+    @GetMapping(value ="user/certificateret/read/{id}")
     public ResponseEntity<Object> readCertificateRet(@PathVariable("id") String id) {
         return ResponseEntity.ok(certificateRetService.readCertificateRet(id));
     }

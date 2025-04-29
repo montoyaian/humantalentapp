@@ -18,8 +18,7 @@ public class DisabilitiesTools {
     private final UserRepository userRepository;
 
     public Disabilities checkInfo(String id) {
-        Disabilities disabilities = disabilitiesRepository.findById(id)
-                .orElse(null);
+        Disabilities disabilities = disabilitiesRepository.findBySupportDocument(id);
         if (disabilities == null) {
             throw new BusinessException(
                     BusinessErrorCodes.BAD_CREDENTIALS,
@@ -33,12 +32,6 @@ public class DisabilitiesTools {
                 .orElseThrow(() -> new BusinessException(
                         BusinessErrorCodes.BAD_CREDENTIALS,
                         "No existe usuario con esa identificación"));
-
-        if (disabilitiesRepository.findById(id).isPresent()) {
-            throw new BusinessException(
-                    BusinessErrorCodes.BAD_CREDENTIALS,
-                    "La información de discapacidad ya existe");
-        }
 
         return user.getUsername();
     }

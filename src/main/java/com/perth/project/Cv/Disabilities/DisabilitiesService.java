@@ -29,6 +29,7 @@ public class DisabilitiesService {
     public AuthResponse createDisabilities(DisabilitiesRequest request, MultipartFile file) {
         disabilitiesTools.checkIdentification(request.getUserId());
         int daysOfIncapacity = (int) ChronoUnit.DAYS.between(request.getStartDate(), request.getEndDate());
+        String fileName = request.getUserId()+"_"+request.getTypeOfDisease().replace( " ","_")+"_"+request.getStartDate();
         Disabilities disabilities = Disabilities.builder()
                 .userId(request.getUserId())
                 .typeOfDisease(request.getTypeOfDisease())
@@ -36,31 +37,39 @@ public class DisabilitiesService {
                 .endDate(request.getEndDate())
                 .daysOfIncapacity(daysOfIncapacity)
                 .eps(request.getEps())
-                .supportDocument(request.getUserId())
+                .supportDocument(fileName)
                 .build();
 
-        uploadFileService.handleFileUpload(file, request.getUserId(), "document", "disabilities");
+        uploadFileService.handleFileUpload(file, fileName, "document", "disabilities");
         disabilitiesRepository.save(disabilities);
         return AuthResponse.builder()
                 .response("Información de discapacidad creada correctamente")
                 .build();
     }
 
-    public AuthResponse editDisabilities(String id, EditDisabilities request, MultipartFile file) {
-        Disabilities disabilities = disabilitiesTools.checkInfo(id);
+    public AuthResponse editDisabilities(String fileName, EditDisabilities request, MultipartFile file) {
+        Disabilities disabilities = disabilitiesTools.checkInfo(fileName);
+        String RfileName = fileName;
         if (request != null) {
+            String newFileName = disabilities.getUserId()+"_"+request.getTypeOfDisease().replace( " ","_")+"_"+request.getStartDate();
+            RfileName = newFileName;
             disabilities.setTypeOfDisease(request.getTypeOfDisease());
             disabilities.setStartDate(request.getStartDate());
             disabilities.setEndDate(request.getEndDate());
             int daysOfIncapacity = (int) ChronoUnit.DAYS.between(request.getStartDate(), request.getEndDate());
             disabilities.setDaysOfIncapacity(daysOfIncapacity);
             disabilities.setEps(request.getEps());
+            disabilities.setSupportDocument(newFileName);
+            
+            if (file == null) {
+                uploadDocumentFile.renameDocument(fileName, newFileName, "disabilities");
+            }
             disabilitiesRepository.save(disabilities);
         }
         
         if (file != null) {
-            uploadDocumentFile.deleteDocument(disabilities.getSupportDocument(), "disabilities");
-            uploadFileService.handleFileUpload(file, disabilities.getUserId(), "document", "disabilities");
+            uploadDocumentFile.deleteDocument(fileName, "disabilities");
+            uploadFileService.handleFileUpload(file, RfileName, "document", "disabilities");
         }
 
         return AuthResponse.builder()
@@ -68,8 +77,8 @@ public class DisabilitiesService {
                 .build();
     }
 
-    public AuthResponse deleteDisabilities(String id) {
-        Disabilities disabilities = disabilitiesTools.checkInfo(id);
+    public AuthResponse deleteDisabilities(String fileName) {
+        Disabilities disabilities = disabilitiesTools.checkInfo(fileName);
         uploadDocumentFile.deleteDocument(disabilities.getSupportDocument(), "disabilities");
         disabilitiesRepository.delete(disabilities);
         return AuthResponse.builder()
@@ -78,9 +87,10 @@ public class DisabilitiesService {
     }
 
     public Object readDisabilities(String id) {
+        List<DisabilitiesResponse> disabilityResponses;
         if ("all".equalsIgnoreCase(id)) {
             List<Disabilities> disabilitiesList = disabilitiesRepository.findAll();
-            return disabilitiesList.stream()
+            disabilityResponses = disabilitiesList.stream()
                     .map(disability -> new DisabilitiesResponse(
                             disability.getUserId(),
                             disability.getTypeOfDisease(),
@@ -91,15 +101,18 @@ public class DisabilitiesService {
                             disability.getSupportDocument()))
                     .collect(Collectors.toList());
         } else {
-            Disabilities disability = disabilitiesTools.checkInfo(id);
-            return new DisabilitiesResponse(
-                    disability.getUserId(),
-                    disability.getTypeOfDisease(),
-                    disability.getStartDate(),
-                    disability.getEndDate(),
-                    disability.getDaysOfIncapacity(),
-                    disability.getEps(),
-                    disability.getSupportDocument());
+            List<Disabilities> disabilityList = disabilitiesRepository.findByUserId(id);
+            disabilityResponses = disabilityList.stream()
+                    .map(disability -> new DisabilitiesResponse(
+                            disability.getUserId(),
+                            disability.getTypeOfDisease(),
+                            disability.getStartDate(),
+                            disability.getEndDate(),
+                            disability.getDaysOfIncapacity(),
+                            disability.getEps(),
+                            disability.getSupportDocument()))
+                    .collect(Collectors.toList());
         }
+        return disabilityResponses;
     }
 }

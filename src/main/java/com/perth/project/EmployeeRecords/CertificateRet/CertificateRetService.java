@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
 import com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation.UploadFileService;
+import com.perth.project.EmployeeRecords.EmployeeTools;
 import com.perth.project.EmployeeRecords.CertificateRet.CertificateRetTools.CertificateRetRequest;
 import com.perth.project.EmployeeRecords.CertificateRet.CertificateRetTools.CertificateRetResponse;
 import com.perth.project.EmployeeRecords.CertificateRet.CertificateRetTools.CertificateRetTools;
@@ -24,10 +25,11 @@ public class CertificateRetService {
     private final CertificateRetTools certificateRetTools;
     private final UploadFileService uploadFileService; 
     private final UploadDocumentFileSftp uploadDocumentFile;
+    private final EmployeeTools employeeTools;
     public AuthResponse createCertificateRet(CertificateRetRequest request, MultipartFile file) {
         certificateRetTools.checkIdentification(request.getUser_id());
         CertificateRet certificateRet = CertificateRet.builder()
-                .user_id(request.getUser_id())
+                .userId(request.getUser_id())
                 .Year(request.getYear())
                 .detachable(request.getUser_id()+"_"+request.getYear())
                 .build();
@@ -44,14 +46,14 @@ public class CertificateRetService {
         String RfileName = fileName;
     
         if (request != null) {
-            String NewFileName = certificateRet.getUser_id() + "_" + request.getYear();
+            String NewFileName = certificateRet.getUserId() + "_" + request.getYear();
             String id = fileName.split("_")[0];
             RfileName = NewFileName;
     
             certificateRetRepository.delete(certificateRet);
     
             CertificateRet NewCertificateRet = CertificateRet.builder()
-                    .user_id(id)
+                    .userId(id)
                     .Year(request.getYear())
                     .detachable(NewFileName)
                     .build();
@@ -83,22 +85,25 @@ public class CertificateRetService {
     }
 
     public Object readCertificateRet(String id) {
+        List<CertificateRetResponse> certificateRetResponses;
         if ("all".equalsIgnoreCase(id)) {
             List<CertificateRet> certificateRets = certificateRetRepository.findAll();
-            List<CertificateRetResponse> certificateRetResponses = certificateRets.stream()
+            certificateRetResponses = certificateRets.stream()
                     .map(certificateRet -> new CertificateRetResponse(
-                            certificateRet.getUser_id(),
+                            certificateRet.getUserId(),
                             certificateRet.getYear(),
                             certificateRet.getDetachable()))
                     .collect(Collectors.toList());
-            return certificateRetResponses;
         } else {
-            CertificateRet certificateRet = certificateRetTools.checkInfo(id);
-            return new CertificateRetResponse(
-                    certificateRet.getUser_id(),
-                    certificateRet.getYear(),
-                    certificateRet.getDetachable());
+            List<CertificateRet> certificateRetList = certificateRetRepository.findByuserId(id);
+            certificateRetResponses = certificateRetList.stream()
+                    .map(certificateRet -> new CertificateRetResponse(
+                            certificateRet.getUserId(),
+                            certificateRet.getYear(),
+                            certificateRet.getDetachable()))
+                    .collect(Collectors.toList());
         }
+        return certificateRetResponses;
     }
 
     

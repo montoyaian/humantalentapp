@@ -3,6 +3,8 @@ package com.perth.project.Cv.Disabilities;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -18,33 +20,30 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "disabilities", uniqueConstraints = { @UniqueConstraint(columnNames = { "userId" }) })
+@Table(name = "disabilities")
 public class Disabilities {
     @Id
-    @Column(nullable = false)
-    String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; 
 
-    @Basic
     @Column(nullable = false)
-    String typeOfDisease;
+    private String userId;
 
-    @Basic
     @Column(nullable = false)
-    LocalDate startDate;
+    private String typeOfDisease;
 
-    @Basic
     @Column(nullable = false)
-    LocalDate endDate;
+    private LocalDate startDate;
 
-    @Basic
     @Column(nullable = false)
-    int daysOfIncapacity;
+    private LocalDate endDate;
 
-    @Basic
     @Column(nullable = false)
-    String eps;
+    private int daysOfIncapacity;
 
-    @Basic
     @Column(nullable = false)
-    String supportDocument;
+    private String eps;
+
+    @Column(nullable = false)
+    private String supportDocument;
 }

@@ -45,7 +45,7 @@ public class DisabilitiesController {
         return ResponseEntity.ok(disabilitiesService.deleteDisabilities(id));
     }
 
-    @GetMapping(value = "admin/disabilities/read/{id}")
+    @GetMapping(value = "user/disabilities/read/{id}")
     public ResponseEntity<Object> readDisabilities(@PathVariable("id") String id) {
         return ResponseEntity.ok(disabilitiesService.readDisabilities(id));
     }
