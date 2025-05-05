@@ -8,11 +8,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LaboralExperienceResponse {
-    private String ID;
+    private long ID;
     private String TypeIdentity;
     private String CompanyName;
     private String Charge;
     private String Vinculation;
     private int TimeService;
     private String SupportDocument;
+    private String userId;
 }

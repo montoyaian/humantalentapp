@@ -47,7 +47,7 @@ public class LaboralExperienceController {
         return ResponseEntity.ok(laboralExperienceService.deleteLaboralExperience(id));
     }
 
-    @GetMapping(value = "admin/laboralexperience/read/{id}")
+    @GetMapping(value = "user/laboralexperience/read/{id}")
     public ResponseEntity<Object> readLaboralExperience(@PathVariable("id") String id) {
         return ResponseEntity.ok(laboralExperienceService.readLaboralExperience(id));
     }

@@ -33,13 +33,6 @@ public class LaboralExperienceTools {
                 .orElseThrow(() -> new BusinessException(
                         BusinessErrorCodes.BAD_CREDENTIALS,
                         "No existe usuario con esa identificación"));
-
-        if (laboralExperienceRepository.findById(id).isPresent()) {
-            throw new BusinessException(
-                    BusinessErrorCodes.BAD_CREDENTIALS,
-                    "La información de experiencia laboral ya existe");
-        }
-
         return user.getUsername();
     }
 }

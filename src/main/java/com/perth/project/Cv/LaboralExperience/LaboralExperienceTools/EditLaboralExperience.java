@@ -26,6 +26,5 @@ public class EditLaboralExperience {
     @NotNull(message = "El tiempo de servicio es obligatorio")
     private int timeService;
 
-    @NotNull(message = "El documento de soporte es obligatorio")
-    private String supportDocument;
+
 }

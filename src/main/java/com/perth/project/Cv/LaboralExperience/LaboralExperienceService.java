@@ -6,9 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.perth.project.Cv.LaboralExperience.LaboralExperienceTools.*;
-import com.perth.project.Cv.LaboralExperience.LaboralExperienceTools.LaboralExperienceRequest;
-import com.perth.project.Cv.LaboralExperience.LaboralExperienceTools.LaboralExperienceResponse;
-import com.perth.project.Cv.LaboralExperience.LaboralExperienceTools.EditLaboralExperience;
 import com.perth.project.Login.Auth.AuthResponse;
 import com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation.UploadDocumentFileSftp;
 import com.perth.project.Parameterization.User.UserFuntions.UploadFileImplementation.UploadFileService;
@@ -26,17 +23,18 @@ public class LaboralExperienceService {
 
     public AuthResponse createLaboralExperience(LaboralExperienceRequest request, MultipartFile file) {
         laboralExperienceTools.checkIdentification(request.getUserId());
+        String fileName = request.getUserId()+"_"+request.getCompanyName()+"_"+request.getCharge();
         LaboralExperience laboralExperience = LaboralExperience.builder()
-                .ID(request.getUserId())
+                .userId(request.getUserId())
                 .TypeIdentity(request.getTypeIdentity())
                 .CompanyName(request.getCompanyName())
                 .Charge(request.getCharge())
                 .Vinculation(request.getVinculation())
                 .TimeService(request.getTimeService())
-                .SupportDocument(request.getUserId())
+                .SupportDocument(fileName)
                 .build();
         
-        uploadFileService.handleFileUpload(file, request.getUserId(), "document", "laboralExperience");
+        uploadFileService.handleFileUpload(file, fileName, "document", "laboralExperience");
         laboralExperienceRepository.save(laboralExperience);
         return AuthResponse.builder()
                 .response("Información de experiencia laboral creada correctamente")
@@ -45,16 +43,23 @@ public class LaboralExperienceService {
 
     public AuthResponse editLaboralExperience(String id, EditLaboralExperience request, MultipartFile file) {
         LaboralExperience laboralExperience = laboralExperienceTools.checkInfo(id);
+        String RfileName = laboralExperience.getSupportDocument();
         if (request != null) {
+            String NewFileName = laboralExperience.getUserId()+"_"+request.getCompanyName()+"_"+request.getCharge();
             laboralExperience.setTypeIdentity(request.getTypeIdentity());
             laboralExperience.setCompanyName(request.getCompanyName());
             laboralExperience.setCharge(request.getCharge());
             laboralExperience.setVinculation(request.getVinculation());
             laboralExperience.setTimeService(request.getTimeService());
+            
+            if (file == null){
+                uploadDocumentFile.renameDocument(laboralExperience.getSupportDocument(), NewFileName, "laboralExperience");
+            }
+            laboralExperience.setSupportDocument(NewFileName);
             laboralExperienceRepository.save(laboralExperience);
         }
         if (file != null) {
-            uploadDocumentFile.deleteDocument(laboralExperience.getSupportDocument(), "laboralExperience");
+            uploadDocumentFile.deleteDocument(RfileName, "laboralExperience");
             uploadFileService.handleFileUpload(file, laboralExperience.getSupportDocument(), "document", "laboralExperience");
         }
         
@@ -83,19 +88,27 @@ public class LaboralExperienceService {
                             laboralExperience.getCharge(),
                             laboralExperience.getVinculation(),
                             laboralExperience.getTimeService(),
-                            laboralExperience.getSupportDocument()))
+                            laboralExperience.getSupportDocument(),
+                            laboralExperience.getUserId()))
                     .collect(Collectors.toList());
             return laboralExperienceResponses;
         } else {
-            LaboralExperience laboralExperience = laboralExperienceTools.checkInfo(id);
-            return new LaboralExperienceResponse(
-                    laboralExperience.getID(),
-                    laboralExperience.getTypeIdentity(),
-                    laboralExperience.getCompanyName(),
-                    laboralExperience.getCharge(),
-                    laboralExperience.getVinculation(),
-                    laboralExperience.getTimeService(),
-                    laboralExperience.getSupportDocument());
+            List<LaboralExperience> laboralExperience = laboralExperienceRepository.findByuserId(id);
+
+                    
+            List<LaboralExperienceResponse> responseList = laboralExperience.stream()
+                .map(e -> new LaboralExperienceResponse(
+                        e.getID(),
+                        e.getTypeIdentity(),
+                        e.getCompanyName(),
+                        e.getCharge(),
+                        e.getVinculation(),
+                        e.getTimeService(),
+                        e.getSupportDocument(),
+                        e.getUserId()))
+                .collect(Collectors.toList());
+
+            return responseList;
         }
     }
 }
