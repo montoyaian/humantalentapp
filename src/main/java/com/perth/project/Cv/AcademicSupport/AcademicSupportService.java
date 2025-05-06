@@ -1,6 +1,7 @@
 package com.perth.project.Cv.AcademicSupport;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -30,17 +31,18 @@ public class AcademicSupportService {
 
     public AuthResponse createAcademicSupport(AcademicSupportRequest request,MultipartFile file) {
         academicSupportTools.checkIdentification(request.getUser_id());
+        String fileName = request.getUser_id() + "_" + request.getAcademicTraining().replace( " ","_");
         AcademicSupport academicSupport = AcademicSupport.builder()
-                .user_id(request.getUser_id())
+                .userId(request.getUser_id())
                 .TypeOfTraining(request.getTypeOfTraining())
                 .TypeOfStudy(request.getTypeOfStudy())
                 .Institution(request.getInstitution())
                 .AcademicTraining(request.getAcademicTraining())
                 .Graduate(request.isGraduate())
-                .SupportDocument(request.getUser_id())
+                .SupportDocument(fileName)
                 .build();
         
-        uploadFileService.handleFileUpload(file,request.getUser_id(),"document","academicSupport");
+        uploadFileService.handleFileUpload(file,fileName,"document","academicSupport");
         academicSupportRepository.save(academicSupport);
         return AuthResponse.builder()
                 .response("Información de soporte académico creada correctamente")
@@ -49,17 +51,24 @@ public class AcademicSupportService {
 
     public AuthResponse editAcademicSupport(String id, EditAcademicSupport request,MultipartFile file) {
         AcademicSupport academicSupport = academicSupportTools.checkInfo(id);
+        String RfileName = academicSupport.getSupportDocument();
         if(request != null){
+            String NewFileName = academicSupport.getUserId() + "_" + request.getAcademicTraining().replace( " ","_");
             academicSupport.setTypeOfTraining(request.getTypeOfTraining());
             academicSupport.setTypeOfStudy(request.getTypeOfStudy());
             academicSupport.setInstitution(request.getInstitution());
             academicSupport.setAcademicTraining(request.getAcademicTraining());
             academicSupport.setGraduate(request.isGraduate());
+            
+            if (file == null){
+                uploadDocumentFile.renameDocument(academicSupport.getSupportDocument(),NewFileName,"academicSupport");
+            }
+            academicSupport.setSupportDocument(NewFileName);
             academicSupportRepository.save(academicSupport);
         }
-        User user = userRepository.findById(id).orElse(null);
         if (file != null) {
-            uploadFileService.handleFileUpload(file,user.getUsername(),"document","academicSupport");
+            uploadDocumentFile.deleteDocument(RfileName, "academicSupport");
+            uploadFileService.handleFileUpload(file,academicSupport.getSupportDocument(),"document","academicSupport");
         }
         
         return AuthResponse.builder()
@@ -81,7 +90,7 @@ public class AcademicSupportService {
             List<AcademicSupport> academicSupports = academicSupportRepository.findAll();
             List<AcademicSupportResponse> academicSupportResponses = academicSupports.stream()
                     .map(academicSupport -> new AcademicSupportResponse(
-                            academicSupport.getUser_id(),
+                            academicSupport.getUserId(),
                             academicSupport.getTypeOfTraining(),
                             academicSupport.getTypeOfStudy(),
                             academicSupport.getInstitution(),
@@ -91,15 +100,19 @@ public class AcademicSupportService {
                     .collect(Collectors.toList());
             return academicSupportResponses;
         } else {
-            AcademicSupport academicSupport = academicSupportTools.checkInfo(id);
-            return new AcademicSupportResponse(
-                    academicSupport.getUser_id(),
-                    academicSupport.getTypeOfTraining(),
-                    academicSupport.getTypeOfStudy(),
-                    academicSupport.getInstitution(),
-                    academicSupport.getAcademicTraining(),
-                    academicSupport.isGraduate(),
-                    academicSupport.getSupportDocument());
+            List<AcademicSupport> academicSupport = academicSupportRepository.findByuserId(id);
+
+            List<AcademicSupportResponse> academicSupportResponses = academicSupport.stream()
+                    .map(academicSupports -> new AcademicSupportResponse(
+                            academicSupports.getUserId(),
+                            academicSupports.getTypeOfTraining(),
+                            academicSupports.getTypeOfStudy(),
+                            academicSupports.getInstitution(),
+                            academicSupports.getAcademicTraining(),
+                            academicSupports.isGraduate(),
+                            academicSupports.getSupportDocument()))
+                    .collect(Collectors.toList());
+            return academicSupportResponses;
         }
     }
 }

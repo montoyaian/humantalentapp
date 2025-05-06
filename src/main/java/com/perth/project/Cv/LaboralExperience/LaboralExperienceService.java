@@ -23,7 +23,7 @@ public class LaboralExperienceService {
 
     public AuthResponse createLaboralExperience(LaboralExperienceRequest request, MultipartFile file) {
         laboralExperienceTools.checkIdentification(request.getUserId());
-        String fileName = request.getUserId()+"_"+request.getCompanyName()+"_"+request.getCharge();
+        String fileName = request.getUserId()+"_"+request.getCompanyName().replace( " ","_")+"_"+request.getCharge().replace( " ","_");
         LaboralExperience laboralExperience = LaboralExperience.builder()
                 .userId(request.getUserId())
                 .TypeIdentity(request.getTypeIdentity())
@@ -45,7 +45,7 @@ public class LaboralExperienceService {
         LaboralExperience laboralExperience = laboralExperienceTools.checkInfo(id);
         String RfileName = laboralExperience.getSupportDocument();
         if (request != null) {
-            String NewFileName = laboralExperience.getUserId()+"_"+request.getCompanyName()+"_"+request.getCharge();
+            String NewFileName = laboralExperience.getUserId()+"_"+request.getCompanyName().replace( " ","_")+"_"+request.getCharge().replace( " ","_");
             laboralExperience.setTypeIdentity(request.getTypeIdentity());
             laboralExperience.setCompanyName(request.getCompanyName());
             laboralExperience.setCharge(request.getCharge());

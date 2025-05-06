@@ -35,12 +35,6 @@ public class AcademicSupportTools {
                         BusinessErrorCodes.BAD_CREDENTIALS,
                         "No existe usuario con esa identificación"));
 
-        if (academicSupportRepository.findById(id).isPresent()) {
-            throw new BusinessException(
-                    BusinessErrorCodes.BAD_CREDENTIALS,
-                    "La información de soporte académico ya existe");
-        }
-
         return user.getUsername();
     }
 }

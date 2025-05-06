@@ -46,7 +46,7 @@ public class AcademicSupportController {
         return ResponseEntity.ok(academicSupportService.deleteAcademicSupport(id));
     }
 
-    @GetMapping(value ="admin/academicsupport/read/{id}")
+    @GetMapping(value ="user/academicsupport/read/{id}")
     public ResponseEntity<Object> readAcademicSupport(@PathVariable("id") String id) {
         return ResponseEntity.ok(academicSupportService.readAcademicSupport(id));
     }
