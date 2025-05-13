@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DisabilitiesResponse {
-    private String userId;
+    private Long id;
     private String typeOfDisease;
     private LocalDate startDate;
     private LocalDate endDate;
     private int daysOfIncapacity;
     private String eps;
     private String supportDocument;
+    private String userId;
 }

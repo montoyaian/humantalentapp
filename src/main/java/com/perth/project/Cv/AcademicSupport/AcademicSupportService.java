@@ -90,13 +90,15 @@ public class AcademicSupportService {
             List<AcademicSupport> academicSupports = academicSupportRepository.findAll();
             List<AcademicSupportResponse> academicSupportResponses = academicSupports.stream()
                     .map(academicSupport -> new AcademicSupportResponse(
-                            academicSupport.getUserId(),
+                            academicSupport.getId(),
                             academicSupport.getTypeOfTraining(),
                             academicSupport.getTypeOfStudy(),
                             academicSupport.getInstitution(),
                             academicSupport.getAcademicTraining(),
                             academicSupport.isGraduate(),
-                            academicSupport.getSupportDocument()))
+                            academicSupport.getSupportDocument(),
+                            academicSupport.getUserId()
+                            ))
                     .collect(Collectors.toList());
             return academicSupportResponses;
         } else {
@@ -104,13 +106,14 @@ public class AcademicSupportService {
 
             List<AcademicSupportResponse> academicSupportResponses = academicSupport.stream()
                     .map(academicSupports -> new AcademicSupportResponse(
-                            academicSupports.getUserId(),
+                            academicSupports.getId(),
                             academicSupports.getTypeOfTraining(),
                             academicSupports.getTypeOfStudy(),
                             academicSupports.getInstitution(),
                             academicSupports.getAcademicTraining(),
                             academicSupports.isGraduate(),
-                            academicSupports.getSupportDocument()))
+                            academicSupports.getSupportDocument(),
+                            academicSupports.getUserId()))
                     .collect(Collectors.toList());
             return academicSupportResponses;
         }

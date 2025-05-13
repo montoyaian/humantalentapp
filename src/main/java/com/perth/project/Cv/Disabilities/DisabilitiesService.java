@@ -92,25 +92,27 @@ public class DisabilitiesService {
             List<Disabilities> disabilitiesList = disabilitiesRepository.findAll();
             disabilityResponses = disabilitiesList.stream()
                     .map(disability -> new DisabilitiesResponse(
-                            disability.getUserId(),
+                            disability.getId(),
                             disability.getTypeOfDisease(),
                             disability.getStartDate(),
                             disability.getEndDate(),
                             disability.getDaysOfIncapacity(),
                             disability.getEps(),
-                            disability.getSupportDocument()))
+                            disability.getSupportDocument(),
+                            disability.getUserId()))
                     .collect(Collectors.toList());
         } else {
             List<Disabilities> disabilityList = disabilitiesRepository.findByUserId(id);
             disabilityResponses = disabilityList.stream()
                     .map(disability -> new DisabilitiesResponse(
-                            disability.getUserId(),
+                            disability.getId(),
                             disability.getTypeOfDisease(),
                             disability.getStartDate(),
                             disability.getEndDate(),
                             disability.getDaysOfIncapacity(),
                             disability.getEps(),
-                            disability.getSupportDocument()))
+                            disability.getSupportDocument(),
+                            disability.getUserId()))
                     .collect(Collectors.toList());
         }
         return disabilityResponses;
